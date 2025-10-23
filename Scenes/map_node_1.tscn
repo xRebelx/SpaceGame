@@ -20,6 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="FadeOverlay" type="ColorRect" parent="UILayer/Control"]
+visible = false
 z_index = 4
 layout_mode = 1
 anchors_preset = 15
@@ -45,13 +46,13 @@ stretch_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("2_wvhjt")]
 z_index = 1
-position = Vector2(963, 506)
+position = Vector2(6217, 4109)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(963, 506)
+position = Vector2(6217, 4109)
 limit_left = 0
 limit_top = 0
 limit_right = 12000
@@ -59,16 +60,13 @@ limit_bottom = 8000
 
 [node name="Star" parent="." instance=ExtResource("3_ldstr")]
 z_index = -1
-position = Vector2(1587, 766)
+position = Vector2(5821, 4059)
 
 [node name="Planet" parent="." instance=ExtResource("4_3j8y0")]
 z_index = -1
-position = Vector2(1163, 623)
+position = Vector2(6433, 4229)
 sun_path = NodePath("../Star")
 orbit_distance = 700.0
-
-[node name="PlanetUI" parent="Planet" index="2" node_paths=PackedStringArray("planet_reference")]
-planet_reference = NodePath("../../Player")
 
 [node name="PlanetDockManager" parent="Planet" index="3"]
 player_path = NodePath("../../Player")
