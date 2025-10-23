@@ -37,34 +37,34 @@ start_visible = true
 
 [node name="SpaceBackground" type="TextureRect" parent="."]
 z_index = -2
-offset_left = 2.0
-offset_top = 1.0
-offset_right = 12002.0
-offset_bottom = 8001.0
+offset_right = 14000.0
+offset_bottom = 14000.0
 texture = ExtResource("1_cofjp")
 stretch_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("2_wvhjt")]
 z_index = 1
-position = Vector2(6217, 4109)
+position = Vector2(7269, 6521)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(6217, 4109)
+position = Vector2(7269, 6521)
 limit_left = 0
 limit_top = 0
-limit_right = 12000
-limit_bottom = 8000
+limit_right = 14000
+limit_bottom = 14000
 
 [node name="Star" parent="." instance=ExtResource("3_ldstr")]
 z_index = -1
-position = Vector2(5821, 4059)
+position = Vector2(6873, 6471)
+world_bound_radius = 4000.0
+world_bound_width = 20.0
 
 [node name="Planet" parent="." instance=ExtResource("4_3j8y0")]
 z_index = -1
-position = Vector2(6433, 4229)
+position = Vector2(7485, 6641)
 sun_path = NodePath("../Star")
 orbit_distance = 700.0
 

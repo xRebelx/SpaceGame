@@ -116,6 +116,20 @@ func _physics_process(_delta: float) -> void:
 			# --- END ADDED ---
 				
 			per_planet_dm.start_docking(_nearby_planet)
+			
+	# --- ADDGITED: New World Bounds Clamping ---
+	var offset_from_center: Vector2 = global_position - Globals.world_center
+	var dist_sq: float = offset_from_center.length_squared()
+	
+	if dist_sq > Globals.world_radius * Globals.world_radius:
+		# 1. Clamp position
+		var dir: Vector2 = offset_from_center.normalized()
+		global_position = Globals.world_center + dir * Globals.world_radius
+		
+		# 2. Remove outward velocity to prevent "sticking"
+		var outward_velocity: Vector2 = linear_velocity.project(dir)
+		if outward_velocity.dot(dir) > 0: # Check if velocity is pointing outwards
+			linear_velocity -= outward_velocity
 
 
 # Called by Planet.gd when you enter/exit its DockingArea.
