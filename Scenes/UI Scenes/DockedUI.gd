@@ -1,66 +1,84 @@
-# res://Scenes/UI Scenes/DockedUI.gd
 extends Control
 class_name DockedUI
 
+## Emitted when the "UnDockBTN" is pressed.
 signal undock_requested
 
-var planet_name_node: Control = null        # Label or RichTextLabel
-var faction_label: Label = null
-var has_shipyard_label: Label = null
-var has_wilderness_label: Label = null
-var undock_btn: Button = null
+# --- Node Caches ---
+# We'll find these in _ready based on your screenshot
+@onready var undock_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/UnDockBTN
+# FIXED: Changed type from Label to RichTextLabel to match scene node
+@onready var planet_name_label: RichTextLabel = $MarginContainer/VBoxContainer/PlanetName
+@onready var faction_label: Label = $MarginContainer/VBoxContainer/VBoxContainer/OwnedFaction
+@onready var shipyard_label: Label = $MarginContainer/VBoxContainer/VBoxContainer/HasShipyard
+@onready var wilderness_label: Label = $MarginContainer/VBoxContainer/VBoxContainer/HasWilderness
+
+var _current_planet: Node2D = null
 
 func _ready() -> void:
-	# IMPORTANT: Don't put a CanvasLayer inside this scene.
-	# Keep everything under this root Control; UIManager already sits on a CanvasLayer(5).
-	mouse_filter = Control.MOUSE_FILTER_STOP
-
-	planet_name_node     = find_child("PlanetName", true, false) as Control
-	faction_label        = find_child("OwnedFaction", true, false) as Label
-	has_shipyard_label   = find_child("HasShipyard", true, false) as Label
-	has_wilderness_label = find_child("HasWilderness", true, false) as Label
-	undock_btn           = find_child("UnDockBTN", true, false) as Button
-
-	if undock_btn and not undock_btn.is_connected("pressed", Callable(self, "_on_undock_pressed")):
-		undock_btn.pressed.connect(Callable(self, "_on_undock_pressed"))
-
-func _on_undock_pressed() -> void:
-	emit_signal("undock_requested")
-
-# Called by UIManager.gd after instancing
-func set_from_planet(planet: Node2D) -> void:
-	var pdata: Resource = null
-	if "data" in planet:
-		pdata = planet.data as Resource
-	elif planet.has_method("get"):
-		pdata = planet.get("data") as Resource
-
-	if pdata:
-		_set_text(planet_name_node, str(pdata.get("name") if pdata.has_method("get") else pdata.name))
-		if faction_label:
-			faction_label.text = "Faction: " + str(pdata.get("faction") if pdata.has_method("get") else pdata.faction)
-		if has_shipyard_label:
-			var hs: bool = bool(pdata.get("has_shipyard") if pdata.has_method("get") else pdata.has_shipyard)
-			has_shipyard_label.text = "Has Shipyard: " + _yes_no(hs)
-		if has_wilderness_label:
-			var hw: bool = bool(pdata.get("has_wilderness") if pdata.has_method("get") else pdata.has_wilderness)
-			has_wilderness_label.text = "Has Wilderness: " + _yes_no(hw)
-	else:
-		_set_text(planet_name_node, "Unknown")
-		if faction_label:        faction_label.text        = "Faction: —"
-		if has_shipyard_label:   has_shipyard_label.text   = "Has Shipyard: —"
-		if has_wilderness_label: has_wilderness_label.text = "Has Wilderness: —"
-
-func _set_text(node: Control, text: String) -> void:
-	if node == null:
+	print("[DockedUI] _ready(). Finding nodes...")
+	
+	# --- Validate Nodes ---
+	# Check if the paths from your screenshot are correct.
+	if not is_instance_valid(undock_button):
+		# FIXED: Convert NodePath to String using str() for concatenation
+		push_error("[DockedUI] 'UnDockBTN' not found. Check path: " + str($MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/UnDockBTN.get_path()))
 		return
-	if node is Label:
-		(node as Label).text = text
-	elif node is RichTextLabel:
-		var rtl := node as RichTextLabel
-		rtl.bbcode_enabled = false
-		rtl.clear()
-		rtl.append_text(text)
+	if not is_instance_valid(planet_name_label):
+		push_warning("[DockedUI] 'PlanetName' label not found.")
+	if not is_instance_valid(faction_label):
+		push_warning("[DockedUI] 'OwnedFaction' label not found.")
+	if not is_instance_valid(shipyard_label):
+		push_warning("[DockedUI] 'HasShipyard' label not found.")
+	if not is_instance_valid(wilderness_label):
+		push_warning("[DockedUI] 'HasWilderness' label not found.")
 
-func _yes_no(b: bool) -> String:
-	return "Yes" if b else "No"
+	# --- Connect Signal ---
+	if not undock_button.is_connected("pressed", Callable(self, "_on_undock_button_pressed")):
+		undock_button.connect("pressed", Callable(self, "_on_undock_button_pressed"))
+		print("[DockedUI] Connected UnDockBTN 'pressed' signal.")
+		
+	# Start invisible, UIManager will fade it in
+	modulate.a = 0.0
+
+## This is called by UIManager.gd
+func set_from_planet(planet: Node2D) -> void:
+	_current_planet = planet
+	print("[DockedUI] set_from_planet(): ", planet.name)
+	
+	var pdata: PlanetData = planet.get("data")
+	if not is_instance_valid(pdata):
+		push_error("[DockedUI] PlanetData is null!")
+		return
+		
+	if is_instance_valid(planet_name_label):
+		planet_name_label.text = pdata.name
+		
+	if is_instance_valid(faction_label):
+		faction_label.text = "Faction: " + pdata.faction
+		
+	if is_instance_valid(shipyard_label):
+		shipyard_label.text = "Shipyard: " + ("Yes" if pdata.has_shipyard else "No")
+		
+	if is_instance_valid(wilderness_label):
+		wilderness_label.text = "Wilderness: " + ("Yes" if pdata.has_wilderness else "No")
+		
+	# Fade in the UI
+	var tw := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(self, "modulate:a", 1.0, 0.3) # Quick fade in
+
+## Public function for UIManager to call
+func fade_out(duration: float) -> void:
+	print("[DockedUI] fade_out() called.")
+	var tw := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tw.tween_property(self, "modulate:a", 0.0, duration)
+	await tw.finished
+	print("[DockedUI] Fade out finished.")
+
+## Internal signal handler
+func _on_undock_button_pressed() -> void:
+	print("[DockedUI] Undock button pressed. Emitting 'undock_requested'.")
+	# Disable the button to prevent double-clicks
+	if is_instance_valid(undock_button):
+		undock_button.disabled = true
+	emit_signal("undock_requested")
