@@ -1,8 +1,9 @@
 extends RigidBody2D
 class_name Player
 
-@export var dock_manager_path: NodePath
-var dock_manager: Node = null
+# --- REMOVED ---
+# @export var dock_manager_path: NodePath (No longer needed)
+# var dock_manager: Node = null (No longer needed)
 
 # ===== Movement tuning =====
 @export var thrust_force: float = 700.0
@@ -34,13 +35,9 @@ var align_rotation_while_docked: bool = true
 @onready var thruster_rev_right: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_right_1")
 
 func _ready() -> void:
-	if not dock_manager_path.is_empty():
-		dock_manager = get_node_or_null(dock_manager_path)
-	if dock_manager and not dock_manager.is_connected("docking_complete", Callable(self, "_on_docking_complete")):
-		dock_manager.connect("docking_complete", Callable(self, "_on_docking_complete"))
-	if dock_manager and not dock_manager.is_connected("fade_complete", Callable(self, "_on_fade_complete")):
-		dock_manager.connect("fade_complete", Callable(self, "_on_fade_complete"))
-
+	# --- MODIFIED ---
+	# Removed old dock_manager connections.
+	
 	gravity_scale = 0.0
 	linear_damp = world_linear_damp
 	angular_damp = world_angular_damp
@@ -102,10 +99,22 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact") and _nearby_planet and not is_docking and not is_docked:
 		var per_planet_dm: Node = _nearby_planet.get_node_or_null("PlanetDockManager")
 		if per_planet_dm and per_planet_dm.has_method("start_docking"):
+			print("[Player] Interact pressed. Found PDM on: ", _nearby_planet.name)
 			is_docking = true
 			# ensure awake for approach
 			if "sleeping" in self:
 				self.sleeping = false
+				
+			# --- ADDED: Connect to this specific planet's DM signals ---
+			if not per_planet_dm.is_connected("docking_complete", Callable(self, "_on_docking_complete")):
+				per_planet_dm.connect("docking_complete", Callable(self, "_on_docking_complete"))
+				print("[Player] Connected to docking_complete.")
+				
+			if not per_planet_dm.is_connected("undocking_complete", Callable(self, "_on_undocking_complete")):
+				per_planet_dm.connect("undocking_complete", Callable(self, "_on_undocking_complete"))
+				print("[Player] Connected to undocking_complete.")
+			# --- END ADDED ---
+				
 			per_planet_dm.start_docking(_nearby_planet)
 
 
@@ -115,32 +124,37 @@ func set_nearby_planet(p: Node2D) -> void:
 
 
 func _on_docking_complete(planet: Node2D) -> void:
+	print("[Player] _on_docking_complete received.")
 	# Remember the current (small) scale for enforcement
 	docked_scale = scale
 	docked_to_planet = planet
 	is_docking = false
 	is_docked = true
 	dock_follow_planet = planet
+	
+	# --- ADDED: Store offset data from PDM ---
+	var pdm := planet.get_node_or_null("PlanetDockManager")
+	if is_instance_valid(pdm):
+		dock_offset_local = pdm.get("dock_anchor_offset")
+		align_rotation_while_docked = pdm.get("align_rotation_while_docked")
+	
 	_set_thrusters(false, false)
 	if has_node("BoostParticles"):
 		$BoostParticles.emitting = false
 
 
-func _on_fade_complete(_planet: Node2D) -> void:
-	var ui := get_tree().current_scene.get_node_or_null("%UILayer/PlanetDockUI")
-	if ui:
-		ui.visible = true
-
-
-# --- Future: undock API (not used yet) ---
-func undock_and_takeoff() -> void:
-	# Example steps for later:
-	# is_docked = false
-	# scale = Vector2.ONE (or cached original)
-	# sleeping = false
-	# apply small impulse
-	pass
-
+# --- ADDED: Handles signal from PlanetDockManager ---
+func _on_undocking_complete(_planet: Node2D) -> void:
+	print("[Player] _on_undocking_complete received. Resetting state.")
+	is_docked = false
+	is_docking = false
+	dock_follow_planet = null
+	docked_to_planet = null
+	scale = Vector2.ONE
+	
+	if "sleeping" in self:
+		sleeping = false
+		
 
 # ===== Helpers =====
 func _set_thrusters(forward_on: bool, reverse_on: bool) -> void:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dg7uiy57g1n7k"]
 
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://Themes/DefaultTheme.theme" id="1_godhi"]
-[ext_resource type="Script" uid="uid://dnddfmwpwon5i" path="res://Scenes/UI Scenes/DockedUI.gd" id="1_wreyr"]
+[ext_resource type="Script" uid="uid://dnddfmwpwon5i" path="res://Scripts/DockedUI.gd" id="1_wreyr"]
 [ext_resource type="FontFile" uid="uid://cho13riygas28" path="res://fonts/SairaCondensed-Regular.ttf" id="2_wreyr"]
 
 [sub_resource type="Theme" id="Theme_q1ram"]

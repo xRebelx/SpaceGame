@@ -48,7 +48,8 @@ func _ready() -> void:
 	if not player_path.is_empty():
 		player = get_node_or_null(player_path) as Node2D
 	_try_resolve_overlay()
-	print("[PDM] PlanetDockManager _ready on: ", get_parent().name if get_parent() else "Unknown")
+	# FIXED: Cast .name (StringName) to String to resolve ternary warning
+	print("[PDM] PlanetDockManager _ready on: ", str(get_parent().name) if get_parent() else "Unknown")
 	print("[PDM] Player node: ", player)
 
 

@@ -46,7 +46,6 @@ stretch_mode = 1
 [node name="Player" parent="." instance=ExtResource("2_wvhjt")]
 z_index = 1
 position = Vector2(963, 506)
-dock_manager_path = NodePath("../Planet/PlanetDockManager")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")
