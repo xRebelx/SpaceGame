@@ -1,11 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://dlupaeqe81bs8"]
 
 [ext_resource type="Script" uid="uid://coni03qaaachy" path="res://Scripts/Player.gd" id="1_iqqb2"]
-[ext_resource type="Texture2D" uid="uid://c61pmmjdiv7tm" path="res://Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-10.png" id="2_vhk2w"]
-[ext_resource type="Texture2D" uid="uid://cukl7v7ujk15t" path="res://Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-51.png" id="3_3fayr"]
+[ext_resource type="Texture2D" uid="uid://c61pmmjdiv7tm" path="res://Assets/Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-10.png" id="2_vhk2w"]
+[ext_resource type="Texture2D" uid="uid://cukl7v7ujk15t" path="res://Assets/Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-51.png" id="3_3fayr"]
 [ext_resource type="Script" uid="uid://ctayju0genvqk" path="res://Scripts/Weapon.gd" id="3_ywlpj"]
-[ext_resource type="Texture2D" uid="uid://vhtah2vlvymg" path="res://Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-47.png" id="4_lu08f"]
+[ext_resource type="Texture2D" uid="uid://vhtah2vlvymg" path="res://Assets/Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-47.png" id="4_lu08f"]
 [ext_resource type="PackedScene" uid="uid://dvl43hojip538" path="res://Scenes/bullet.tscn" id="4_x3wgy"]
+
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pn6rw"]
 radius = 22.0

@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://6ilxclsfdaif" path="res://Scripts/Planet.gd" id="1_qbmra"]
 [ext_resource type="Resource" uid="uid://cj7v4h121rn6" path="res://Data/Planets/osiris_prime.tres" id="2_hjx7e"]
-[ext_resource type="Texture2D" uid="uid://cseq06ecvtn38" path="res://Planet Assets/Large Planets 512x512/Solid/Terrestrial/Terrestrial_03-512x512.png" id="2_mcvm8"]
+[ext_resource type="Texture2D" uid="uid://cseq06ecvtn38" path="res://Assets/Planet Assets/Large Planets 512x512/Solid/Terrestrial/Terrestrial_03-512x512.png" id="2_mcvm8"]
 [ext_resource type="Script" uid="uid://bvg0w0yo16vun" path="res://Scripts/PlanetDockManager.gd" id="4_ytj11"]
 [ext_resource type="FontFile" uid="uid://cho13riygas28" path="res://fonts/SairaCondensed-Regular.ttf" id="5_kmany"]
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://Themes/DefaultTheme.theme" id="5_w18ph"]
 [ext_resource type="Texture2D" uid="uid://gsanmolbyd73" path="res://textures/Bars/BubbleBg.png" id="6_w18ph"]
 [ext_resource type="FontFile" uid="uid://c6gu8xdo3cqgr" path="res://fonts/SairaCondensed-Bold.ttf" id="7_hjx7e"]
+
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_joiy7"]
 

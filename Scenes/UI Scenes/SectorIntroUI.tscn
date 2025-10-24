@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2okxamj7c3ox"]
 
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://Themes/DefaultTheme.theme" id="2_sp1n8"]
-[ext_resource type="Texture2D" uid="uid://450he1vknokb" path="res://Planet Assets/Large Planets 512x512/Solid/Snowy/Snowy_01-512x512.png" id="3_go1vx"]
+[ext_resource type="Texture2D" uid="uid://450he1vknokb" path="res://Assets/Planet Assets/Large Planets 512x512/Solid/Snowy/Snowy_01-512x512.png" id="3_go1vx"]
+
 
 [node name="SectorIntroUI" type="Control"]
 layout_mode = 3
