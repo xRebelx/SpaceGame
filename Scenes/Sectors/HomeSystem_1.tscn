@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://ckjk3g3ed7hqw"]
 
-[ext_resource type="Script" uid="uid://wdraphs83yow" path="res://Scripts/FadeOverlay.gd" id="1_pbpcq"]
-[ext_resource type="Texture2D" uid="uid://dhyrkftmnkhm8" path="res://Assets/Space Assets/Space BG 1024x1024/Blue Nebula/Blue Nebula 1 - 1024x1024.png" id="2_yc6sj"]
-[ext_resource type="PackedScene" uid="uid://dlupaeqe81bs8" path="res://Scenes/player.tscn" id="3_p2446"]
-[ext_resource type="PackedScene" uid="uid://bow80wbps7q02" path="res://Scenes/star.tscn" id="4_yvr5r"]
-[ext_resource type="PackedScene" uid="uid://cgmcr1b4y5kgv" path="res://Scenes/planet.tscn" id="5_c0hk4"]
+[ext_resource type="Script" uid="uid://wdraphs83yow" path="res://Scripts/FadeOverlay.gd" id="1_yal56"]
+[ext_resource type="Texture2D" uid="uid://dhyrkftmnkhm8" path="res://Assets/Space Assets/Space BG 1024x1024/Blue Nebula/Blue Nebula 1 - 1024x1024.png" id="2_bdfbe"]
+[ext_resource type="PackedScene" uid="uid://dlupaeqe81bs8" path="res://Scenes/player.tscn" id="3_fgq4l"]
+[ext_resource type="PackedScene" uid="uid://bow80wbps7q02" path="res://Scenes/star.tscn" id="4_5yp46"]
+[ext_resource type="PackedScene" uid="uid://cgmcr1b4y5kgv" path="res://Scenes/planet.tscn" id="5_oynqg"]
 
 [node name="HomeSystem_1" type="Node2D"]
 
@@ -32,17 +32,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
-script = ExtResource("1_pbpcq")
+script = ExtResource("1_yal56")
 start_visible = true
 
 [node name="SpaceBackground" type="TextureRect" parent="."]
 z_index = -2
 offset_right = 14000.0
 offset_bottom = 14000.0
-texture = ExtResource("2_yc6sj")
+texture = ExtResource("2_bdfbe")
 stretch_mode = 1
 
-[node name="Player" parent="." instance=ExtResource("3_p2446")]
+[node name="Player" parent="." instance=ExtResource("3_fgq4l")]
 z_index = 1
 position = Vector2(7269, 6521)
 
@@ -56,13 +56,13 @@ limit_top = 0
 limit_right = 14000
 limit_bottom = 14000
 
-[node name="Star" parent="." instance=ExtResource("4_yvr5r")]
+[node name="Star" parent="." instance=ExtResource("4_5yp46")]
 z_index = -1
 position = Vector2(6873, 6471)
 world_bound_radius = 4000.0
 world_bound_width = 20.0
 
-[node name="Planet" parent="." instance=ExtResource("5_c0hk4")]
+[node name="Planet" parent="." instance=ExtResource("5_oynqg")]
 z_index = -1
 position = Vector2(7485, 6641)
 sun_path = NodePath("../Star")
