@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ShipData" load_steps=2 format=3 uid="uid://kvj4xwxafwy6"]
+
+[sub_resource type="GDScript" id="GDScript_lvxwt"]
+script/source = "# /src/data/ship_data.gd
+class_name ShipData
+extends Resource
+@export var ship_id: String
+@export var ship_name: String
+@export var hull_template: Resource   # ShipHullData
+@export var installed_components: Array[Resource] = []
+@export var cargo: Array[Resource] = []
+@export var current_hp: float = 100.0
+"
+
+[resource]
+script = SubResource("GDScript_lvxwt")

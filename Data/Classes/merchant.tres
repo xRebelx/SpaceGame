@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=2 format=3 uid="uid://bycvj15bhbi5r"]
+
+[ext_resource type="Script" uid="uid://chm50gn4c0hak" path="res://Data/Player/class_data.gd" id="1_gdr06"]
+
+[resource]
+script = ExtResource("1_gdr06")
+id = "merchant"
+display_name = "Merchant"
+base_stats = {
+&"Boarding": 1,
+&"Command": 2,
+&"Exploring": 1,
+&"Haggling": 3,
+&"Intimidation": 1,
+&"Persuasion": 3,
+&"Piloting": 1,
+&"Stealth": 1
+}
+metadata/_custom_type_script = "uid://chm50gn4c0hak"

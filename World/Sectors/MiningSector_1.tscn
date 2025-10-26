@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8sb05q4gjljo"]
+
+[ext_resource type="Texture2D" uid="uid://dhyrkftmnkhm8" path="res://Assets/Space Assets/Space BG 1024x1024/Blue Nebula/Blue Nebula 1 - 1024x1024.png" id="1_2fbxg"]
+[ext_resource type="PackedScene" uid="uid://dva0go7ffl0vw" path="res://World/Black Holes/BlackHole.tscn" id="1_c84mt"]
+
+[node name="MiningSector1" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="BGLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="BGImage" type="TextureRect" parent="ParallaxBackground/BGLayer"]
+offset_right = 12000.0
+offset_bottom = 12000.0
+texture = ExtResource("1_2fbxg")
+stretch_mode = 1
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="BH_MS1_HS1" parent="." instance=ExtResource("1_c84mt")]
+position = Vector2(5765, 6572)
+target_sector_id = "HomeSector_1"
+target_gate_name = "BH_HS1_MS1"

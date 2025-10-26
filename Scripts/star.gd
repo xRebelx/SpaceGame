@@ -12,10 +12,6 @@ extends Node2D
 
 
 func _ready() -> void:
-	# --- ADDED: Set the global world bounds based on this star ---
-	# We assume the star is the center of the world
-	if Globals.has_method("set_world_center_and_radius"):
-		Globals.set_world_center_and_radius(global_position, world_bound_radius)
 	
 	queue_redraw()
 

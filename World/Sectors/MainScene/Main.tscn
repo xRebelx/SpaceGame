@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnxxh4ckt1o0h"]
+
+[ext_resource type="Script" uid="uid://baq30q8u1gu3s" path="res://World/Sectors/MainScene/main.gd" id="1_a6rm3"]
+[ext_resource type="PackedScene" uid="uid://dlupaeqe81bs8" path="res://Entities/Player/player.tscn" id="2_i0gbv"]
+[ext_resource type="Script" uid="uid://c0288crwpankg" path="res://World/Sectors/MainScene/PlayerCamera.gd" id="3_i0gbv"]
+[ext_resource type="Script" uid="uid://bgxqfy7jbr2n3" path="res://World/Sectors/MainScene/loading_layer.gd" id="4_h5adh"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_a6rm3")
+
+[node name="WorldRoot" type="Node2D" parent="."]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Player" parent="Entities" instance=ExtResource("2_i0gbv")]
+
+[node name="Camera2D" type="Camera2D" parent="Entities"]
+script = ExtResource("3_i0gbv")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUDRoot" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PopupLayer" type="Control" parent="UILayer/HUDRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingLayer" type="Control" parent="UILayer/HUDRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_h5adh")

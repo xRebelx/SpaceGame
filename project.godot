@@ -11,20 +11,24 @@ config_version=5
 [application]
 
 config/name="space_game"
-run/main_scene="res://Scenes/Sectors/HomeSystem_1.tscn"
+run/main_scene="uid://dnxxh4ckt1o0h"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Globals="*res://Scripts/Globals.gd"
-UI="*res://Scripts/UIManager.gd"
+UniverseManager="*res://SRC/universe_manager.gd"
+PersistenceManager="*res://SRC/persistence_manager.gd"
+UIManager="*res://SRC/ui_manager.gd"
+EventBus="*res://SRC/event_bus.gd"
+FactionManager="*res://SRC/faction_manager.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=3
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

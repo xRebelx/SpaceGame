@@ -1,0 +1,146 @@
+[gd_scene load_steps=34 format=3 uid="uid://dva0go7ffl0vw"]
+
+[ext_resource type="Script" uid="uid://ds7xxlc8tgowh" path="res://World/Black Holes/black_hole.gd" id="1_ro4qv"]
+[ext_resource type="Texture2D" uid="uid://dv116nkbwk62c" path="res://Assets/BlackHole/BlackHole-White 2/BH_00000.png" id="1_tbuge"]
+[ext_resource type="Texture2D" uid="uid://qrbtc4defvju" path="res://Assets/BlackHole/BlackHole-White 2/BH_00001.png" id="2_efu36"]
+[ext_resource type="Texture2D" uid="uid://cl5gm3rlpawvh" path="res://Assets/BlackHole/BlackHole-White 2/BH_00002.png" id="3_ajlkw"]
+[ext_resource type="Texture2D" uid="uid://dg2jtaqc4w7ug" path="res://Assets/BlackHole/BlackHole-White 2/BH_00003.png" id="4_wnsi6"]
+[ext_resource type="Texture2D" uid="uid://djmti7txjgb2m" path="res://Assets/BlackHole/BlackHole-White 2/BH_00004.png" id="5_wjkba"]
+[ext_resource type="Texture2D" uid="uid://bt8d02om0dg70" path="res://Assets/BlackHole/BlackHole-White 2/BH_00005.png" id="6_h471b"]
+[ext_resource type="Texture2D" uid="uid://brx0crq6ivr1e" path="res://Assets/BlackHole/BlackHole-White 2/BH_00006.png" id="7_tsv1j"]
+[ext_resource type="Texture2D" uid="uid://ni1o7y1sackp" path="res://Assets/BlackHole/BlackHole-White 2/BH_00007.png" id="8_fplwd"]
+[ext_resource type="Texture2D" uid="uid://ba4xlubr0c4cu" path="res://Assets/BlackHole/BlackHole-White 2/BH_00008.png" id="9_c30ra"]
+[ext_resource type="Texture2D" uid="uid://c2yts2kboy0mi" path="res://Assets/BlackHole/BlackHole-White 2/BH_00009.png" id="10_5o0jr"]
+[ext_resource type="Texture2D" uid="uid://dnisab1ldx2ys" path="res://Assets/BlackHole/BlackHole-White 2/BH_00010.png" id="11_ngps2"]
+[ext_resource type="Texture2D" uid="uid://cj04pbsmuhqs4" path="res://Assets/BlackHole/BlackHole-White 2/BH_00011.png" id="12_l2da8"]
+[ext_resource type="Texture2D" uid="uid://b2xocw0nekb2v" path="res://Assets/BlackHole/BlackHole-White 2/BH_00012.png" id="13_4kjf2"]
+[ext_resource type="Texture2D" uid="uid://c05027m64uiy2" path="res://Assets/BlackHole/BlackHole-White 2/BH_00013.png" id="14_xk1ba"]
+[ext_resource type="Texture2D" uid="uid://cccftes58eiw1" path="res://Assets/BlackHole/BlackHole-White 2/BH_00014.png" id="15_a70iu"]
+[ext_resource type="Texture2D" uid="uid://cg426nitqicu8" path="res://Assets/BlackHole/BlackHole-White 2/BH_00015.png" id="16_58she"]
+[ext_resource type="Texture2D" uid="uid://b7qcive6r6jkt" path="res://Assets/BlackHole/BlackHole-White 2/BH_00016.png" id="17_3lf46"]
+[ext_resource type="Texture2D" uid="uid://bvgibua8t8p47" path="res://Assets/BlackHole/BlackHole-White 2/BH_00017.png" id="18_4ywse"]
+[ext_resource type="Texture2D" uid="uid://ck6xremfxlcjc" path="res://Assets/BlackHole/BlackHole-White 2/BH_00018.png" id="19_npa0y"]
+[ext_resource type="Texture2D" uid="uid://b6oe75axn6wj6" path="res://Assets/BlackHole/BlackHole-White 2/BH_00019.png" id="20_xmjvt"]
+[ext_resource type="Texture2D" uid="uid://ugsix4jxbvt7" path="res://Assets/BlackHole/BlackHole-White 2/BH_00020.png" id="21_pnvay"]
+[ext_resource type="Texture2D" uid="uid://c67tb5eo1dnr7" path="res://Assets/BlackHole/BlackHole-White 2/BH_00021.png" id="22_jylt8"]
+[ext_resource type="Texture2D" uid="uid://mvwf2r352uyd" path="res://Assets/BlackHole/BlackHole-White 2/BH_00022.png" id="23_t2xlo"]
+[ext_resource type="Texture2D" uid="uid://204aoy01k22f" path="res://Assets/BlackHole/BlackHole-White 2/BH_00023.png" id="24_f3y4t"]
+[ext_resource type="Texture2D" uid="uid://c1gupl75dq74n" path="res://Assets/BlackHole/BlackHole-White 2/BH_00024.png" id="25_c1i3r"]
+[ext_resource type="Texture2D" uid="uid://bnu4exloouj0u" path="res://Assets/BlackHole/BlackHole-White 2/BH_00025.png" id="26_w2ovk"]
+[ext_resource type="Texture2D" uid="uid://ded2hkklrm5pf" path="res://Assets/BlackHole/BlackHole-White 2/BH_00026.png" id="27_5nyis"]
+[ext_resource type="Texture2D" uid="uid://bdmkcr1egv0b6" path="res://Assets/BlackHole/BlackHole-White 2/BH_00027.png" id="28_urxgr"]
+[ext_resource type="Texture2D" uid="uid://d1qn7enfehdpc" path="res://Assets/BlackHole/BlackHole-White 2/BH_00028.png" id="29_ljv48"]
+[ext_resource type="Texture2D" uid="uid://c2b8lx13hbehm" path="res://Assets/BlackHole/BlackHole-White 2/BH_00029.png" id="30_81b86"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e6b23"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tbuge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_efu36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ajlkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wnsi6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wjkba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h471b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tsv1j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_fplwd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c30ra")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_5o0jr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ngps2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_l2da8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_4kjf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_xk1ba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_a70iu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_58she")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_3lf46")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_4ywse")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_npa0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_xmjvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_pnvay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_jylt8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_t2xlo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_f3y4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_c1i3r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_w2ovk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_5nyis")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_urxgr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_ljv48")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_81b86")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s5tba"]
+radius = 2.418677
+
+[node name="BlackHole" type="Area2D"]
+script = ExtResource("1_ro4qv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_e6b23")
+autoplay = "default"
+frame_progress = 0.33671877
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_s5tba")
