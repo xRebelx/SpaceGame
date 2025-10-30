@@ -19,7 +19,6 @@ var _current_intro_screen: SectorIntroUI = null
 # ------------------------------
 # LIFECYCLE
 # ------------------------------
-# ... (No changes in _ready or init) ...
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -29,6 +28,20 @@ func _ready() -> void:
 	
 	if not EventBus.is_connected("sector_intro_complete", Callable(self, "_on_sector_intro_complete")):
 		EventBus.sector_intro_complete.connect(_on_sector_intro_complete)
+	
+	# --- NEW: Connect screen signals ---
+	if not EventBus.is_connected("request_show_screen", Callable(self, "_on_request_show_screen")):
+		EventBus.request_show_screen.connect(_on_request_show_screen)
+	if not EventBus.is_connected("request_close_screen", Callable(self, "_on_request_close_screen")):
+		EventBus.request_close_screen.connect(_on_request_close_screen)
+
+	# --- NEW: Connect to Player state signals ---
+	if not EventBus.is_connected("player_entered_orbit", Callable(self, "_on_player_entered_orbit")):
+		EventBus.player_entered_orbit.connect(_on_player_entered_orbit)
+	if not EventBus.is_connected("player_leave_orbit", Callable(self, "_on_player_leave_orbit")):
+		EventBus.player_leave_orbit.connect(_on_player_leave_orbit)
+
+
 func init(popup_root: Control) -> void:
 	if not is_instance_valid(popup_root):
 		push_error("[UIManager] init() called with an invalid popup_root.")
@@ -40,14 +53,32 @@ func init(popup_root: Control) -> void:
 # ------------------------------
 # REGISTRY
 # ------------------------------
-# ... (No changes in register_screen) ...
 func register_screen(screen_name: String, scene_path: String) -> void:
 	_screen_registry[screen_name] = scene_path
 
 # ------------------------------
-# SCREENS
+# SCREENS (MODIFIED)
 # ------------------------------
-# ... (No changes in show_screen or close_current_screen) ...
+
+func _on_request_show_screen(screen_name: String, payload: Variant) -> void:
+	show_screen(screen_name, payload)
+
+func _on_request_close_screen(screen_name: String) -> void:
+	# --- NEW: Debug Print ---
+	print("[UIManager] Received request_close_screen for: ", screen_name)
+	
+	# Check if the screen to be closed is the current screen
+	if is_instance_valid(_current_screen) and _current_screen.name == screen_name:
+		print("[UIManager] Closing current screen: ", _current_screen.name)
+		close_current_screen()
+	else:
+		# This handles cases where a non-modal popup might be closed by name
+		# For now, we only support closing the *current* main screen.
+		if is_instance_valid(_current_screen):
+			print("[UIManager] Request to close '%s', but current screen is '%s'. Ignoring." % [screen_name, _current_screen.name])
+		else:
+			print("[UIManager] Request to close '%s', but no screen is open. Ignoring." % screen_name)
+
 func show_screen(screen_name: String, data: Variant = null) -> Control:
 	if not is_instance_valid(_popup_root):
 		push_error("[UIManager] show_screen() called, but init() was never called or popup_root is invalid.")
@@ -57,9 +88,13 @@ func show_screen(screen_name: String, data: Variant = null) -> Control:
 		push_warning("[UIManager] Unknown screen: %s" % screen_name)
 		return null
 
+	# --- MODIFICATION: Allow opening a screen on top of another ---
+	# This is for things like Save/Load menus.
+	# We will only close the *previous* screen if it's NOT the HUD.
+	# For your new OrbitUI, it will open *over* the (hidden) HUD.
 	if is_instance_valid(_current_screen):
-		_current_screen.queue_free()
-		_current_screen = null
+		# --- FIX: Call close_current_screen to properly clear state ---
+		close_current_screen()
 
 	var scene_path: String = _screen_registry[screen_name]
 	var ps: PackedScene = load(scene_path) as PackedScene
@@ -68,6 +103,11 @@ func show_screen(screen_name: String, data: Variant = null) -> Control:
 		return null
 
 	var inst: Node = ps.instantiate()
+	
+	# --- NEW: Set the node's name to the registered screen name ---
+	# This allows `_on_request_close_screen` to work correctly
+	inst.name = screen_name
+	
 	if inst is Control:
 		var c := inst as Control
 		c.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -76,22 +116,40 @@ func show_screen(screen_name: String, data: Variant = null) -> Control:
 		_popup_root.add_child(c)
 		_current_screen = c
 	else:
+		# This case should ideally not happen for "screens"
 		add_child(inst)
-		_current_screen = null
+		_current_screen = null # Can't track non-control nodes this way
 
 	if data != null and "apply_data" in inst:
 		inst.apply_data(data)
 
 	return _current_screen
+
 func close_current_screen() -> void:
 	if is_instance_valid(_current_screen):
 		_current_screen.queue_free()
 		_current_screen = null
+
+# ------------------------------
+# --- NEW: ORBIT STATE HANDLERS ---
+# ------------------------------
+
+func _on_player_entered_orbit(_planet_node: Node) -> void:
+	print("[UIManager] Player entered orbit. Hiding HUD, showing OrbitUI.")
+	hide_hud()
+	show_screen("OrbitUI")
+
+func _on_player_leave_orbit() -> void:
+	print("[UIManager] Player left orbit. Closing screen, showing HUD.")
+	# We can just call close_current_screen() because
+	# OrbitUI *should* be the current screen.
+	close_current_screen() 
+	show_hud()
+
 		
 # ------------------------------
 # HUD
 # ------------------------------
-# ... (No changes in _ensure_hud, get_hud, show_hud, hide_hud, _try_connect_eventbus, _on_request_show_hud) ...
 func _ensure_hud() -> Control:
 	if is_instance_valid(_hud):
 		return _hud
@@ -110,6 +168,7 @@ func _ensure_hud() -> Control:
 		return null
 
 	var node: Node = ps.instantiate()
+	node.name = "GalaxyHUD" # Give it its name
 	var ctrl: Control = node as Control
 	if ctrl == null:
 		push_warning("[UIManager] GalaxyHUD root must be a Control.")
@@ -123,37 +182,40 @@ func _ensure_hud() -> Control:
 	ctrl.hide()
 	_hud = ctrl
 	return _hud
+
 func get_hud() -> Control:
 	return _ensure_hud()
+
 func show_hud() -> void:
 	var hud := _ensure_hud()
 	if hud != null:
 		hud.show()
 	else:
 		push_warning("[UIManager]   HUD is null (failed to ensure)")
+
 func hide_hud() -> void:
 	if is_instance_valid(_hud):
 		_hud.hide()
+
 func _try_connect_eventbus() -> void:
 	if not Engine.has_singleton("EventBus"):
 		return
 	if not EventBus.is_connected("request_show_hud", Callable(self, "_on_request_show_hud")):
 		EventBus.request_show_hud.connect(_on_request_show_hud)
+
 func _on_request_show_hud(visible: bool) -> void:
+	# --- NEW: Debug Print ---
+	print("[UIManager] Received request_show_hud: ", visible)
+	
 	if visible:
 		show_hud()
 	else:
 		hide_hud()
 
-# --- DELETED: This function is no longer needed ---
-# func forward_sector_resource_to_hud(resource_path: String) -> void:
-#	... (all of the old code is removed) ...
-
 
 # ------------------------------
 # UPDATED: WARP TRANSITION LOGIC
 # ------------------------------
-# ... (No changes in begin_warp_transition, _on_blackout_fade_complete, show_sector_intro, _on_sector_intro_complete) ...
 func begin_warp_transition() -> void:
 	"""
 	Called by main.gd.

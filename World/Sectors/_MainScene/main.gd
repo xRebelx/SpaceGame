@@ -45,15 +45,16 @@ func _ready() -> void:
 	UIManager.register_screen("MainMenu", "res://UI/UI Scenes/MainMenu.tscn")
 	UIManager.register_screen("CharacterCreate", "res://UI/UI Scenes/CharacterCreate.tscn")
 	UIManager.register_screen("GalaxyHUD", "res://UI/UI Scenes/GalaxyHUD.tscn")
-	
-	# --- ADD THESE LINES ---
 	UIManager.register_screen("SaveGame", "res://UI/UI Scenes/SaveGame.tscn")
 	UIManager.register_screen("LoadGame", "res://UI/UI Scenes/LoadGame.tscn")
+	
+	# --- ADD THIS LINE ---
+	UIManager.register_screen("OrbitUI", "res://UI/UI Scenes/OrbitUI.tscn")
 	# --- END ADD ---
 
 	# Signals
 	EventBus.request_show_screen.connect(_on_request_show_screen)
-	EventBus.request_close_screen.connect(_on_request_close_screen)
+	# EventBus.request_close_screen.connect(_on_request_close_screen) # --- DELETE THIS LINE ---
 	EventBus.request_start_game.connect(_on_request_start_game)
 	EventBus.new_game_confirmed.connect(_on_new_game_confirmed)
 	
@@ -112,9 +113,16 @@ func _on_request_show_screen(screen_name: String, payload: Variant) -> void:
 	else:
 		UIManager.show_screen(screen_name, payload)
 
-func _on_request_close_screen(_screen_name: String) -> void:
-	if "close_current_screen" in UIManager:
-		UIManager.close_current_screen()
+# --- DELETE THE ENTIRE FUNCTION BELOW ---
+# func _on_request_close_screen(screen_name: String) -> void:
+# 	# Pass the screen name to the UIManager
+# 	if "close_current_screen" in UIManager:
+# 		UIManager.close_current_screen(screen_name) # Assuming UIManager.close_current_screen can take an arg
+# 	elif "close_screen" in UIManager:
+# 		UIManager.close_screen(screen_name) # Fallback
+# 	else:
+# 		UIManager.close_current_screen() # Original behavior
+
 
 # ===== New Game chain =====
 func _on_new_game_confirmed(profile: Resource) -> void:
