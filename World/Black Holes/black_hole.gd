@@ -19,7 +19,10 @@ func _on_body_entered(body: Node) -> void:
 		return
 	# Teleport to the target sector, spawning at the matching gate.
 	if target_sector_id != "" and target_gate_name != "":
-		UniverseManager.change_sector(target_sector_id, target_gate_name)
+		# --- FIX: THIS IS THE LINE TO CHANGE ---
+		# OLD: UniverseManager.change_sector(target_sector_id, target_gate_name)
+		EventBus.player_initiated_warp.emit(target_sector_id, target_gate_name)
+		# --- END FIX ---
 
 func _on_body_exited(body: Node) -> void:
 	_ignored.erase(body)

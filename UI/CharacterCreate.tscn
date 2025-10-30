@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjb7kkhydjph5"]
-
-[ext_resource type="Script" uid="uid://61uax2flar1n" path="res://Scripts/character_create.gd" id="1_ck87f"]
-
-[node name="CharacterCreate" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_ck87f")

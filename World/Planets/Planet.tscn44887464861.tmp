@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://hkgcxx2fg1ss"]
+
+[ext_resource type="Script" uid="uid://bcj04tef8due6" path="res://World/Planets/planet.gd" id="1_hkqyb"]
+[ext_resource type="Texture2D" uid="uid://djxkhpw20enbd" path="res://Assets/Planet Assets/Medium Planets 256x256/Solid/Lush/Lush_01-256x256.png" id="2_e8wbk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v12gy"]
+
+[node name="Planet" type="Node2D"]
+script = ExtResource("1_hkqyb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_e8wbk")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+shape = SubResource("CircleShape2D_v12gy")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

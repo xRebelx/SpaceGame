@@ -1,15 +1,27 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2okxamj7c3ox"]
 
+[ext_resource type="Script" uid="uid://dyk0kedky02ug" path="res://UI/Scripts/sector_intro_ui.gd" id="1_ke7rh"]
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_sp1n8"]
-[ext_resource type="Texture2D" uid="uid://450he1vknokb" path="res://Assets/Planet Assets/Large Planets 512x512/Solid/Snowy/Snowy_01-512x512.png" id="3_go1vx"]
-
-
 
 [node name="SectorIntroUI" type="Control"]
+z_index = 10
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_ke7rh")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Blackout" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
 [node name="VBoxParent" type="VBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(0, 1080)
@@ -17,7 +29,8 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="Planet Name RTL" type="RichTextLabel" parent="CanvasLayer/VBoxParent"]
+[node name="SectorName" type="RichTextLabel" parent="CanvasLayer/VBoxParent"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_sp1n8")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
@@ -29,7 +42,8 @@ horizontal_alignment = 1
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/VBoxParent"]
 layout_mode = 2
 
-[node name="Planet Type RTL" type="RichTextLabel" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
+[node name="SectorFaction" type="RichTextLabel" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_sp1n8")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
@@ -37,16 +51,3 @@ theme_override_font_sizes/normal_font_size = 80
 text = "Planet Type"
 fit_content = true
 horizontal_alignment = 1
-
-[node name="Spacer" type="HBoxContainer" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/VBoxParent"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="PlanetImage TR" type="TextureRect" parent="CanvasLayer/VBoxParent/VBoxContainer3"]
-layout_mode = 2
-texture = ExtResource("3_go1vx")

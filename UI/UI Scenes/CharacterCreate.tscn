@@ -1,0 +1,241 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjb7kkhydjph5"]
+
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="1_5877i"]
+[ext_resource type="Script" uid="uid://61uax2flar1n" path="res://UI/Scripts/character_create.gd" id="2_a8h2c"]
+[ext_resource type="Texture2D" uid="uid://dp0ju7r5m42tb" path="res://Assets/Space Assets/Space BG 1024x1024/Starfields/Starfield 1 - 1024x1024.png" id="3_wm3x7"]
+[ext_resource type="Texture2D" uid="uid://dnmgn4xfharvq" path="res://Assets/UI_Assets/Buttons/ButtonOutline.png" id="4_16dv2"]
+[ext_resource type="Texture2D" uid="uid://658mne6to01l" path="res://Assets/UI_Assets/Panels/InputField.png" id="5_sps76"]
+
+[node name="CharacterCreate" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5877i")
+script = ExtResource("2_a8h2c")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wm3x7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_5877i")
+theme_override_font_sizes/font_size = 64
+text = "Create Your Captain"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_16dv2")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="TextureRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5877i")
+color = Color(0, 0.77254903, 0.7137255, 0.1882353)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 200
+columns = 3
+
+[node name="LeftSide" type="Control" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftSideContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CaptainName" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/CaptainName"]
+layout_mode = 2
+text = "Captain Name:"
+
+[node name="MarginContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="BoxOutline" type="NinePatchRect" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("5_sps76")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/MarginContainer/BoxOutline"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="NameEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/MarginContainer/BoxOutline/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter Captain Name..."
+
+[node name="NameWarning" type="Label" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6455512, 2.5629624e-06, 4.813075e-07, 1)
+
+[node name="spacer" type="Control" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Choose Profession:"
+
+[node name="ClassList" type="OptionButton" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/LeftSide/LeftSideContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Middle" type="Control" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MiddleContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/Middle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/Middle/MiddleContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="StatsPreview" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/Middle/MiddleContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RightSide" type="Control" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/RightSide"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/RightSide/VBoxContainer"]
+custom_minimum_size = Vector2(0, 800)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/RightSide/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+columns = 2
+
+[node name="BtnStart" type="Button" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/RightSide/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start"
+
+[node name="BtnBack" type="Button" parent="MarginContainer/VBoxContainer/Control/MarginContainer/Control/GridContainer/RightSide/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"

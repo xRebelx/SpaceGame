@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=2 format=3 uid="uid://bwtex2g5jhcbt"]
+
+[ext_resource type="Script" uid="uid://chm50gn4c0hak" path="res://Data/Player/class_data.gd" id="1_q6dh4"]
+
+[resource]
+script = ExtResource("1_q6dh4")
+id = "scout"
+display_name = "Scout"
+base_stats = {
+&"Boarding": 1,
+&"Command": 1,
+&"Exploring": 2,
+&"Haggling": 1,
+&"Intimidation": 1,
+&"Persuasion": 1,
+&"Piloting": 3,
+&"Stealth": 2
+}
+metadata/_custom_type_script = "uid://chm50gn4c0hak"

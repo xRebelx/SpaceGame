@@ -1,10 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://felkbrb8wl0b"]
 
-[ext_resource type="Script" path="res://Scripts/PlanetIntroUI.gd" id="1_bkp16"]
+[ext_resource type="Script" uid="uid://bwq1053jfqrkm" path="res://UI/Scripts/PlanetIntroUI.gd" id="1_bkp16"]
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_25bl3"]
 [ext_resource type="Texture2D" uid="uid://450he1vknokb" path="res://Assets/Planet Assets/Large Planets 512x512/Solid/Snowy/Snowy_01-512x512.png" id="3_25bl3"]
-
-
 
 [node name="PlanetIntroUI" type="Control"]
 layout_mode = 3

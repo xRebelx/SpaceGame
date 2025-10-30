@@ -9,6 +9,7 @@ radius = 22.0
 height = 56.0
 
 [node name="Player" type="RigidBody2D" groups=["players"]]
+z_index = 5
 script = ExtResource("1_iqqb2")
 thrust_force = 200.0
 reverse_force = 150.0

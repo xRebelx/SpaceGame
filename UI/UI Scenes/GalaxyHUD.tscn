@@ -1,0 +1,405 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6s5b0irt0343"]
+
+[ext_resource type="Script" uid="uid://crnwdnt3aycgg" path="res://UI/Scripts/GalaxyHud.gd" id="1_ria6e"]
+[ext_resource type="Texture2D" uid="uid://bdwgi247jckgs" path="res://Assets/UI_Assets/Misc/BottomGlow.png" id="2_ria6e"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="3_sgjyd"]
+[ext_resource type="Texture2D" uid="uid://crpfgqlhxrmyy" path="res://Assets/UI_Assets/Icons/64/Menu.png" id="4_ria6e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ro6bl"]
+
+[node name="GalaxyHud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ria6e")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxTopSpacer" type="VBoxContainer" parent="VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxTopSpacer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 15
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2"]
+layout_mode = 2
+columns = 3
+
+[node name="Control" type="Control" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control3" type="Control" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer/Control3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer/Control3/MarginContainer"]
+layout_mode = 2
+
+[node name="SaveNotify" type="Label" parent="VBoxContainer3/VBoxTopSpacer/GridContainer/MarginContainer2/GridContainer/Control3/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Game Saved!"
+horizontal_alignment = 2
+
+[node name="VBoxPopupArea" type="VBoxContainer" parent="VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxPopupArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 15
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2"]
+layout_mode = 2
+columns = 3
+
+[node name="Control" type="Control" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SystemMenuPopup" type="Control" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -114.0
+offset_top = -174.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0.43137255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Title" type="Label" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 6
+theme = ExtResource("3_sgjyd")
+text = "Game Menu
+"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="BtnSave" type="Button" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("3_sgjyd")
+text = "Save"
+
+[node name="BtnLoad" type="Button" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("3_sgjyd")
+text = "Load"
+
+[node name="BtnOptions" type="Button" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("3_sgjyd")
+text = "Options
+"
+
+[node name="BtnExit" type="Button" parent="VBoxContainer3/VBoxPopupArea/GridContainer/MarginContainer2/GridContainer/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_sgjyd")
+text = "Exit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Panel" type="Panel" parent="VBoxContainer3/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ro6bl")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel"]
+modulate = Color(4.4520945e-07, 0.3841742, 0.2088936, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ria6e")
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.43137255)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LblCredits" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Credits"
+
+[node name="LblHullValue" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Hull"
+
+[node name="LblShieldValue" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Shield"
+
+[node name="LblWeapon" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Weapon"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LblSectorName" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Sector"
+
+[node name="LblFaction" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Faction"
+
+[node name="LblSecurity" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Security"
+
+[node name="LblPirate" type="Label" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel/MarginContainer/GridContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("3_sgjyd")
+theme_override_font_sizes/font_size = 32
+text = "Pirate Activity"
+
+[node name="ControlMiddleSpacer" type="Control" parent="VBoxContainer3/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel2" type="Panel" parent="VBoxContainer3/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ro6bl")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2"]
+modulate = Color(4.4520945e-07, 0.3841742, 0.2088936, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ria6e")
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.43137255)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BtnSystemMenu" type="TextureButton" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer"]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("4_ria6e")

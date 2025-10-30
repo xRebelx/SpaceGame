@@ -17,11 +17,14 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+EventBus="*res://SRC/event_bus.gd"
+PauseManager="*res://SRC/PauseManager.gd"
 UniverseManager="*res://SRC/universe_manager.gd"
 PersistenceManager="*res://SRC/persistence_manager.gd"
 UIManager="*res://SRC/ui_manager.gd"
-EventBus="*res://SRC/event_bus.gd"
 FactionManager="*res://SRC/faction_manager.gd"
+PlayerManager="*res://SRC/PlayerManager.gd"
+SectorManager="*res://SRC/SectorManager.gd"
 
 [display]
 

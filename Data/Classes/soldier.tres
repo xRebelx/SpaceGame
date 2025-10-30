@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=2 format=3 uid="uid://dxvmo82xrhucq"]
+
+[ext_resource type="Script" uid="uid://chm50gn4c0hak" path="res://Data/Player/class_data.gd" id="1_8leny"]
+
+[resource]
+script = ExtResource("1_8leny")
+id = "soldier"
+display_name = "Soldier"
+base_stats = {
+&"Boarding": 1,
+&"Command": 3,
+&"Exploring": 1,
+&"Haggling": 1,
+&"Intimidation": 2,
+&"Persuasion": 1,
+&"Piloting": 2,
+&"Stealth": 1
+}
+metadata/_custom_type_script = "uid://chm50gn4c0hak"

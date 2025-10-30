@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=2 format=3 uid="uid://1v4geiopr4t4"]
+
+[ext_resource type="Script" uid="uid://chm50gn4c0hak" path="res://Data/Player/class_data.gd" id="1_j4n4h"]
+
+[resource]
+script = ExtResource("1_j4n4h")
+id = "smuggler"
+display_name = "Smuggler"
+base_stats = {
+&"Boarding": 1,
+&"Command": 1,
+&"Exploring": 1,
+&"Haggling": 2,
+&"Intimidation": 1,
+&"Persuasion": 1,
+&"Piloting": 2,
+&"Stealth": 3
+}
+metadata/_custom_type_script = "uid://chm50gn4c0hak"

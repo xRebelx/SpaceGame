@@ -1,0 +1,255 @@
+[gd_scene load_steps=7 format=3 uid="uid://00it0fdj7sfy"]
+
+[ext_resource type="Texture2D" uid="uid://cggybvcxydlsu" path="res://Assets/UI_Assets/Panels/Stroke2px.png" id="1_da6js"]
+[ext_resource type="Script" uid="uid://dqlutwhua8uyh" path="res://UI/Scripts/save_game.gd" id="1_k7r1m"]
+[ext_resource type="PackedScene" uid="uid://dsn68ioquq2a6" path="res://UI/UI Scenes/SaveSlot.tscn" id="2_s0obg"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_sxpc8"]
+[ext_resource type="Texture2D" uid="uid://c182am75j51pw" path="res://Assets/UI_Assets/Icons/64/X.png" id="3_q4vud"]
+[ext_resource type="Texture2D" uid="uid://d2s1buqxw6hdc" path="res://Assets/UI_Assets/Icons/64/Bin.png" id="4_k7r1m"]
+
+[node name="SaveGame" type="Control" groups=["ui_hide_on_snapshot"]]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_k7r1m")
+save_slot_scene = ExtResource("2_s0obg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="BGContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/BGContainer"]
+self_modulate = Color(1.2513996e-06, 0.33052745, 0.53064793, 1)
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_da6js")
+region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
+
+[node name="BackdropContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/BackdropContainer"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0.13333334, 1)
+
+[node name="UIContentContainer" type="MarginContainer" parent="MarginContainer/BackdropContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CaptainLBL" type="Label" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxpc8")
+text = "Captain"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CaptainHeaderVbox" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/CaptainHeaderVbox"]
+self_modulate = Color(0.45490196, 0.49019608, 0.62352943, 0.49803922)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_da6js")
+region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
+
+[node name="Spacer2" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SaveSlotContainer" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveSlot" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ScrollContainer/SaveSlotContainer" instance=ExtResource("2_s0obg")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Spacer3" type="VBoxContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonGridContainer" type="GridContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+columns = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="BackButton" type="Button" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxpc8")
+text = "Back"
+
+[node name="EmptySpace" type="MarginContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="SaveButton" type="Button" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer/MarginContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxpc8")
+text = "Save"
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="DeleteButton" type="Button" parent="MarginContainer/BackdropContainer/UIContentContainer/VBoxContainer/ButtonGridContainer/MarginContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxpc8")
+theme_override_colors/font_color = Color(0.84263474, 3.5616756e-06, 4.813075e-07, 1)
+text = "Delete"
+
+[node name="ConfirmationDialogue" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 700
+theme_override_constants/margin_top = 320
+theme_override_constants/margin_right = 700
+theme_override_constants/margin_bottom = 320
+
+[node name="ColorRect" type="ColorRect" parent="ConfirmationDialogue"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.16078432, 0.16078432, 0.16078432, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_sxpc8")
+theme_override_colors/font_color = Color(0.7738557, 7.70092e-07, 5.7756904e-07, 1)
+text = "Are you sure you want to delete this save?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_sxpc8")
+theme_override_font_sizes/font_size = 18
+text = "Saves cannot be recovered once deleted."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveImage" type="TextureRect" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+columns = 2
+
+[node name="CancelDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_sxpc8")
+text = "Cancel"
+icon = ExtResource("3_q4vud")
+
+[node name="ConfirmDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer" groups=["ui_hide_on_snapshot"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_sxpc8")
+theme_override_colors/font_color = Color(0.84313726, 0, 0, 1)
+text = "Delete"
+icon = ExtResource("4_k7r1m")

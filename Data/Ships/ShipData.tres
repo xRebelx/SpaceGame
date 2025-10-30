@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ShipData" load_steps=2 format=3 uid="uid://lyp3xfchgokw"]
+
+[ext_resource type="Script" uid="uid://s3tvd4xc6cf0" path="res://Data/Ships/ShipData.gd" id="1_44yaq"]
+
+[resource]
+script = ExtResource("1_44yaq")
+ship_id = "player_starter"
+ship_name = "Rambler"
+_current_shield = 50.0
+_max_shield = 75.0
+_weapon_name = "Thrustmonkey"
+metadata/_custom_type_script = "uid://s3tvd4xc6cf0"

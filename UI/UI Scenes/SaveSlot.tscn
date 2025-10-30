@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://dsn68ioquq2a6"]
+
+[ext_resource type="Script" uid="uid://bmwu6p1qj23fq" path="res://UI/Scripts/save_slot.gd" id="1_e24hd"]
+[ext_resource type="Texture2D" uid="uid://dn6hlllnn3f5x" path="res://icon.svg" id="1_sae8a"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_e24hd"]
+[ext_resource type="Texture2D" uid="uid://dnmgn4xfharvq" path="res://Assets/UI_Assets/Buttons/ButtonOutline.png" id="2_xblyb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e24hd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ucp7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e24hd"]
+bg_color = Color(0.2784314, 0.52156866, 0.5529412, 0.4627451)
+
+[node name="SaveSlot" type="MarginContainer"]
+offset_right = 1920.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_e24hd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.4627451, 0, 1, 0.05490196)
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="ScreenshotRect" type="TextureRect" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_sae8a")
+
+[node name="TimestampLabel" type="Label" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("2_e24hd")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "This will be the details of a save file. 910/5/2025 - 12:23 hey yoooooooooo buddy"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+modulate = Color(0.13333334, 1, 1, 1)
+layout_mode = 2
+texture = ExtResource("2_xblyb")
+region_rect = Rect2(3.4595337, 1.6098766, 32.86199, 37.432198)
+
+[node name="SelectButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_e24hd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6ucp7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_e24hd")

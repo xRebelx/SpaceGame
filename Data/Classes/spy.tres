@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ClassData" load_steps=2 format=3 uid="uid://c2wdnmkfv8vou"]
+
+[ext_resource type="Script" uid="uid://chm50gn4c0hak" path="res://Data/Player/class_data.gd" id="1_koxok"]
+
+[resource]
+script = ExtResource("1_koxok")
+id = "spy"
+display_name = "Spy"
+base_stats = {
+&"Boarding": 1,
+&"Command": 1,
+&"Exploring": 1,
+&"Haggling": 1,
+&"Intimidation": 1,
+&"Persuasion": 2,
+&"Piloting": 2,
+&"Stealth": 3
+}
+metadata/_custom_type_script = "uid://chm50gn4c0hak"

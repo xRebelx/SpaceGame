@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bm0tr6nuc5opp"]
+
+[ext_resource type="Script" uid="uid://c21a2g06tllbe" path="res://World/Sectors/SectorRoot.gd" id="1_6m6fi"]
+[ext_resource type="Texture2D" uid="uid://dhyrkftmnkhm8" path="res://Assets/Space Assets/Space BG 1024x1024/Blue Nebula/Blue Nebula 1 - 1024x1024.png" id="1_od3ax"]
+[ext_resource type="PackedScene" uid="uid://dva0go7ffl0vw" path="res://World/Black Holes/BlackHole.tscn" id="2_6tl0q"]
+[ext_resource type="Resource" uid="uid://cbghpglknccya" path="res://Data/Sectors/HomeSector_1.tres" id="2_ywejf"]
+[ext_resource type="PackedScene" uid="uid://hkgcxx2fg1ss" path="res://World/Planets/Planet.tscn" id="3_6m6fi"]
+[ext_resource type="PackedScene" uid="uid://bqrdcwc1g7yiu" path="res://World/Stars/star.tscn" id="4_6tl0q"]
+[ext_resource type="Script" uid="uid://lsnkghk5piq7" path="res://World/Stars/OrbitPath.gd" id="7_kie2g"]
+
+[node name="HomeSector1" type="Node2D"]
+script = ExtResource("1_6m6fi")
+sector_data = ExtResource("2_ywejf")
+sector_id = "HomeSector_1"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="BGLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="BGImage" type="TextureRect" parent="ParallaxBackground/BGLayer"]
+offset_right = 12000.0
+offset_bottom = 12000.0
+texture = ExtResource("1_od3ax")
+stretch_mode = 1
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="BH_HS1_MS1" parent="." instance=ExtResource("2_6tl0q")]
+position = Vector2(6295, 5072)
+target_sector_id = "MiningSector_1"
+target_gate_name = "BH_MS1_HS1"
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+position = Vector2(6184, 5123)
+
+[node name="Home planet" parent="." instance=ExtResource("3_6m6fi")]
+position = Vector2(6496, 4614)
+target_override = NodePath("../Home Star")
+orbital_period_sec = 120.0
+clockwise = false
+
+[node name="Home Star" parent="." instance=ExtResource("4_6tl0q")]
+position = Vector2(5514, 4275)
+id = "home_star"
+display_name = "Home Star"
+
+[node name="@Node2D@46032" type="Node2D" parent="Home Star"]
+script = ExtResource("7_kie2g")
+
+[node name="@Node2D@20971" type="Node2D" parent="Home Star"]
+script = ExtResource("7_kie2g")

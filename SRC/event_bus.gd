@@ -1,5 +1,30 @@
+# res://SRC/event_bus.gd
+@warning_ignore_start("UNUSED_SIGNAL")
+
 extends Node
-signal request_show_screen(name: String, payload)
-signal request_close_screen(name: String)
-signal new_game_confirmed(profile: Resource)  # CaptainProfile
-signal request_start_game(sector_id: String, entry: String)
+
+func _ready() -> void:
+	print("--- [EventBus] _ready() HAS EXECUTED ---")
+
+# ===== UI Screens =====
+signal request_show_screen(screen_name, payload) # Assumed payload arg
+signal request_show_popup(screen_name, payload)  # <-- ADD THIS LINE
+signal request_close_screen(screen_name)
+signal new_game_confirmed(profile)
+signal request_start_game(sector_id, entry)
+signal save_notify(message: String)
+# ===== HUD =====
+signal request_show_hud(visible)
+signal current_sector_changed(sector_id: String)
+
+# ===== Warp & Transitions =====
+signal player_initiated_warp(target_sector_id, target_gate_name)
+signal sector_intro_complete
+signal blackout_complete
+
+# ===== Persistence & System Menu =====
+signal request_save_game
+signal request_load_game
+signal game_save_successful
+
+@warning_ignore_restore("UNUSED_SIGNAL")

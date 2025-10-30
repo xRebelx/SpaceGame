@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SectorData" load_steps=2 format=3 uid="uid://dew6mea2ydn18"]
+
+[ext_resource type="Script" uid="uid://b3v3nqyh0snuy" path="res://Data/Sectors/SectorData.gd" id="1_0bxk1"]
+
+[resource]
+script = ExtResource("1_0bxk1")
+sector_id = "MiningSector_1"
+sector_name = "Asteroid Belt"
+controlling_faction = "Miners Guild"
+security_level = "Medium"
+pirate_activity = "Medium"
+metadata/_custom_type_script = "uid://b3v3nqyh0snuy"

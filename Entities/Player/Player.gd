@@ -1,3 +1,4 @@
+# Entities/Player/Player.gd
 extends RigidBody2D
 class_name Player
 
@@ -18,10 +19,10 @@ class_name Player
 @onready var thruster_rev_left: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_left_1")
 @onready var thruster_rev_right: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_right_1")
 
-# Runtime captain data
-var captain_name: String = "Captain"
-var stats: Dictionary = {}        # stat_name -> int
-var class_id: String = ""         # e.g. "merchant"
+# --- REFACTORED: State is held in resources ---
+# These are set by `main.gd` during the new/load game process
+var captain_profile: CaptainProfile = null
+var ship_data: ShipData = null
 
 func _ready() -> void:
 	gravity_scale = 0.0
@@ -34,6 +35,11 @@ func _ready() -> void:
 	_set_thrusters(false, false)
 	if has_node("BoostParticles"):
 		$BoostParticles.emitting = false
+
+	# --- NEW: Connect to intro complete signal ---
+	# This is the line that fixes the bug
+	EventBus.sector_intro_complete.connect(_on_sector_intro_complete)
+
 
 func _physics_process(_delta: float) -> void:
 	var turn_input: int = int(Input.is_action_pressed("rotate_right")) - int(Input.is_action_pressed("rotate_left"))
@@ -66,13 +72,29 @@ func _set_thrusters(forward_on: bool, reverse_on: bool) -> void:
 		thruster_rev_right.visible = reverse_on
 
 # ===== New Game hook =====
-func apply_captain_profile(profile: Resource) -> void:
-	if profile == null:
-		return
-	# fetch via property names to stay robust if the Resource is untyped
-	if "captain_name" in profile:
-		captain_name = String(profile.captain_name)
-	if "stats" in profile and typeof(profile.stats) == TYPE_DICTIONARY:
-		stats = profile.stats.duplicate()
-	if "class_id" in profile:
-		class_id = String(profile.class_id)
+func apply_captain_and_ship_data(profile: CaptainProfile, s_data: ShipData) -> void:
+	# This function is the single point of injection for player state
+	if profile:
+		self.captain_profile = profile
+		# Also update the singleton manager so all systems can access it
+		PlayerManager.captain_profile = profile
+	
+	if s_data:
+		self.ship_data = s_data
+		# Also update the singleton manager
+		PlayerManager.ship_data = s_data
+
+# ===== NEW: Warp and Intro Logic =====
+
+func initiate_warp() -> void:
+	"""Called by a warp gate. Stops all motion and input."""
+	print("[Player] Initiating warp... physics disabled.")
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+	_set_thrusters(false, false)
+	set_physics_process(false) # Disables input and physics simulation
+
+func _on_sector_intro_complete() -> void:
+	"""Called by EventBus when the SectorIntroUI fade-out is done."""
+	print("[Player] Sector intro complete. Physics re-enabled.")
+	set_physics_process(true) # Re-enables input and physics
