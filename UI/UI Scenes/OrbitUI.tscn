@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://covw4a2xojx2i"]
+
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="1_45d1s"]
+[ext_resource type="Script" uid="uid://upk5ehnks2y2" path="res://UI/UI Scenes/orbit_ui.gd" id="2_q27y5"]
+
+[node name="OrbitUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_45d1s")
+script = ExtResource("2_q27y5")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -142.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 50
+
+[node name="LeaveButton" type="Button" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Leave Orbit"

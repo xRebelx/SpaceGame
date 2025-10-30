@@ -1,26 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://hkgcxx2fg1ss"]
+[gd_scene load_steps=7 format=3 uid="uid://hkgcxx2fg1ss"]
 
 [ext_resource type="Script" uid="uid://bcj04tef8due6" path="res://World/Planets/planet.gd" id="1_hkqyb"]
 [ext_resource type="Texture2D" uid="uid://djxkhpw20enbd" path="res://Assets/Planet Assets/Medium Planets 256x256/Solid/Lush/Lush_01-256x256.png" id="2_e8wbk"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="3_e8wbk"]
+[ext_resource type="Texture2D" uid="uid://cl104rdn0d5d6" path="res://Assets/UI_Assets/Icons/128/Arrow2Down.png" id="3_v12gy"]
+[ext_resource type="Script" uid="uid://d0i4a7lajvro6" path="res://World/Planets/orbit_anchor.gd" id="5_m5nk8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v12gy"]
-radius = 96.62815
+radius = 148.003
 
 [node name="Home planet" type="Node2D"]
 z_index = 1
 script = ExtResource("1_hkqyb")
 display_name = "Home planet"
-show_name_label = true
-clockwise = true
+target_override = NodePath("../Home Star")
+orbital_period_sec = 120.0
+orbit_anchor_speed = null
+orbit_anchor_radius = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_e8wbk")
 
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
+[node name="OrbitTriggerArea" type="Area2D" parent="."]
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+[node name="TriggerShape" type="CollisionShape2D" parent="OrbitTriggerArea"]
+visible = false
 shape = SubResource("CircleShape2D_v12gy")
 
 [node name="NameLabel" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="WorldSpacePrompt" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="WorldSpacePrompt"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.392157)
+position = Vector2(0, -33)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_v12gy")
+
+[node name="PromptLabel" type="Label" parent="WorldSpacePrompt"]
+unique_name_in_owner = true
+offset_left = -81.0
+offset_top = -106.0
+offset_right = 82.0
+offset_bottom = -54.0
+theme = ExtResource("3_e8wbk")
+text = "[E] Enter Orbit"
+horizontal_alignment = 1
+
+[node name="OrbitAnchor" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_m5nk8")
+
+[connection signal="body_entered" from="OrbitTriggerArea" to="." method="_on_orbit_trigger_area_body_entered"]
+[connection signal="body_exited" from="OrbitTriggerArea" to="." method="_on_orbit_trigger_area_body_exited"]

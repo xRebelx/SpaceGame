@@ -18,11 +18,23 @@ class_name Player
 @onready var thruster_forward: CanvasItem = get_node_or_null("Thrusters/thruster1")
 @onready var thruster_rev_left: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_left_1")
 @onready var thruster_rev_right: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_right_1")
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var thrusters_node: Node2D = $Thrusters
 
 # --- REFACTORED: State is held in resources ---
-# These are set by `main.gd` during the new/load game process
 var captain_profile: CaptainProfile = null
 var ship_data: ShipData = null
+
+# --- NEW: Interaction state ---
+var _current_interactable: Node = null
+
+# --- NEW: Orbiting State ---
+enum State { FLYING, ORBITING }
+var _state: State = State.FLYING
+var _orbiting_planet: Node2D = null
+var _entities_root: Node = null
+
 
 func _ready() -> void:
 	gravity_scale = 0.0
@@ -36,15 +48,33 @@ func _ready() -> void:
 	if has_node("BoostParticles"):
 		$BoostParticles.emitting = false
 
-	# --- NEW: Connect to intro complete signal ---
-	# This is the line that fixes the bug
 	EventBus.sector_intro_complete.connect(_on_sector_intro_complete)
+	
+	EventBus.player_entered_orbit.connect(_on_enter_orbit)
+	EventBus.player_leave_orbit.connect(_on_leave_orbit)
+	
+	# Store parent for re-parenting later
+	_entities_root = get_parent()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void: 
+	# Only process controls if flying
+	if _state != State.FLYING:
+		return
+		
 	var turn_input: int = int(Input.is_action_pressed("rotate_right")) - int(Input.is_action_pressed("rotate_left"))
 	var thrust_pressed: bool = Input.is_action_pressed("thrust")
 	var reverse_pressed: bool = Input.is_action_pressed("reverse")
+
+	# Handle interaction input
+	if Input.is_action_just_pressed("interact"):
+		if is_instance_valid(_current_interactable):
+			if _current_interactable.has_method("on_player_interact"):
+				_current_interactable.on_player_interact()
+			else:
+				print("[Player] DEBUG: ERROR - Node has no 'on_player_interact' method.")
+		else:
+			print("[Player] DEBUG: No interactable in range.")
 
 	angular_velocity = rotation_speed_rps * turn_input
 
@@ -73,28 +103,119 @@ func _set_thrusters(forward_on: bool, reverse_on: bool) -> void:
 
 # ===== New Game hook =====
 func apply_captain_and_ship_data(profile: CaptainProfile, s_data: ShipData) -> void:
-	# This function is the single point of injection for player state
-	if profile:
-		self.captain_profile = profile
-		# Also update the singleton manager so all systems can access it
-		PlayerManager.captain_profile = profile
+	self.captain_profile = profile
+	PlayerManager.captain_profile = profile
 	
 	if s_data:
 		self.ship_data = s_data
-		# Also update the singleton manager
 		PlayerManager.ship_data = s_data
 
-# ===== NEW: Warp and Intro Logic =====
+# ===== Interaction Handlers =====
+func set_interactable(node: Node) -> void:
+	_current_interactable = node
 
+func clear_interactable(node: Node) -> void:
+	if _current_interactable == node:
+		_current_interactable = null
+
+# ===== Warp and Intro Logic =====
 func initiate_warp() -> void:
-	"""Called by a warp gate. Stops all motion and input."""
 	print("[Player] Initiating warp... physics disabled.")
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 	_set_thrusters(false, false)
-	set_physics_process(false) # Disables input and physics simulation
+	set_physics_process(false)
 
 func _on_sector_intro_complete() -> void:
-	"""Called by EventBus when the SectorIntroUI fade-out is done."""
 	print("[Player] Sector intro complete. Physics re-enabled.")
-	set_physics_process(true) # Re-enables input and physics
+	set_physics_process(true)
+
+
+# --- MODIFIED: Orbiting State Functions ---
+
+func _on_enter_orbit(planet_node: Node2D) -> void:
+	if _state == State.ORBITING:
+		return # Already orbiting
+	
+	_state = State.ORBITING
+	_orbiting_planet = planet_node
+	
+	freeze = true 
+	
+	set_physics_process(false)
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0.0
+	collision_shape.set_deferred("disabled", true)
+	
+	if is_instance_valid(thrusters_node):
+		thrusters_node.visible = false
+	else:
+		_set_thrusters(false, false)
+		
+	if has_node("BoostParticles"):
+		$BoostParticles.emitting = false
+		
+	var cam := get_viewport().get_camera_2d()
+	
+	# --- THIS IS THE FIX ---
+	var _cam_tween: Tween = null # Prefixed with underscore
+	var tween_duration: float = 1.0
+	
+	if cam and cam.has_method("set_follow_target"):
+		_cam_tween = cam.set_follow_target(planet_node, Vector2(1.5, 1.5), tween_duration) # Assigned to _cam_tween
+	# --- END FIX ---
+	
+	if planet_node.has_method("capture_player_for_orbit"):
+		planet_node.capture_player_for_orbit(self)
+	else:
+		push_error("[Player] Planet is missing 'capture_player_for_orbit' method!")
+
+	var scale_tween := create_tween()
+	scale_tween.tween_property(self, "scale", Vector2(0.5, 0.5), tween_duration)
+
+
+func _on_leave_orbit() -> void:
+	if _state == State.FLYING:
+		return
+
+	if not is_instance_valid(_orbiting_planet):
+		push_warning("[Player] Cannot leave orbit, planet reference is invalid!")
+		return
+
+	if not _orbiting_planet.has_method("release_player_from_orbit"):
+		push_error("[Player] Planet is missing 'release_player_from_orbit'!")
+		return
+	
+	var exit_position: Vector2 = global_position
+	var exit_rotation: float = global_rotation
+	
+	_state = State.FLYING
+	
+	var cam := get_viewport().get_camera_2d()
+	var cam_tween: Tween = null # <-- This one is OK, it's used below
+	var tween_duration: float = 1.0
+	
+	if cam and cam.has_method("reset_to_player"):
+		cam_tween = cam.reset_to_player(tween_duration)
+
+	_orbiting_planet.release_player_from_orbit(self, _entities_root)
+	
+	global_position = exit_position
+	global_rotation = exit_rotation
+	
+	var scale_tween := create_tween()
+	scale_tween.tween_property(self, "scale", Vector2(1.0, 1.0), tween_duration)
+	
+	if is_instance_valid(cam_tween):
+		await cam_tween.finished
+	if is_instance_valid(scale_tween):
+		await scale_tween.finished
+
+	_orbiting_planet = null
+	
+	freeze = false 
+	set_physics_process(true)
+	collision_shape.set_deferred("disabled", false)
+
+	if is_instance_valid(thrusters_node):
+		thrusters_node.visible = true
