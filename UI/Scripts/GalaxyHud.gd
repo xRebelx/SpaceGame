@@ -9,14 +9,17 @@ const SectorManager = preload("res://SRC/SectorManager.gd")
 @onready var lbl_faction:  Label = %LblFaction
 @onready var lbl_security: Label = %LblSecurity
 @onready var lbl_pirates:  Label = %LblPirate
-@onready var lbl_credits: Label = %LblCredits
+@onready var lbl_credits:  Label = %LblCredits
 @onready var lbl_hull:    Label = %LblHullValue
 @onready var lbl_shield:  Label = %LblShieldValue
 @onready var lbl_weapon:  Label = %LblWeapon
 @onready var save_notify: Label = %SaveNotify
 
+@onready var btn_sector_info: Button = %BtnSectorInfo
+@onready var sector_info_dropdown: Control = %SectorInfoDropdown
+
 # --- System Menu Refs ---
-@onready var btn_system_menu: TextureButton = %BtnSystemMenu
+@onready var btn_system_menu: Button = %BtnSystemMenu
 @onready var system_menu_popup: Control = %SystemMenuPopup
 @onready var btn_save: Button = %BtnSave
 @onready var btn_load: Button = %BtnLoad
@@ -34,6 +37,16 @@ func _ready() -> void:
 	
 	connect_to_player_resources()
 	update_all_player_labels()
+	
+	if is_instance_valid(btn_sector_info):
+		btn_sector_info.pressed.connect(_on_toggle_sector_info)
+	else:
+		push_warning("[GalaxyHUD] %BtnSectorInfo node not found.")
+	
+	if is_instance_valid(sector_info_dropdown):
+		sector_info_dropdown.visible = false # Hide by default
+	else:
+		push_warning("[GalaxyHUD] %SectorInfoDropdown node not found.")
 	
 	# --- Connect System Menu Buttons ---
 	if is_instance_valid(btn_system_menu):
@@ -158,6 +171,11 @@ func _set_labels(sector_title: String, faction: String, security: String, pirate
 		lbl_pirates.text = "Pirates: %s" % pirates
 
 
+func _on_toggle_sector_info() -> void:
+	if is_instance_valid(sector_info_dropdown):
+		sector_info_dropdown.visible = not sector_info_dropdown.visible
+
+
 # --- System Menu Logic ---
 
 func _on_toggle_system_menu() -> void:
@@ -179,7 +197,11 @@ func _on_load_pressed() -> void:
 	system_menu_popup.visible = false # Hide this menu
 
 func _on_options_pressed() -> void:
-	print("[GalaxyHUD] Options pressed (not implemented).")
+	print("[GalaxyHUD] 'Options' button clicked.")
+	# --- Pause the game, THEN show the screen ---
+	PauseManager.pause_game()
+	EventBus.request_show_screen.emit("Options", null)
+	system_menu_popup.visible = false # Hide this menu
 
 func _on_exit_pressed() -> void:
 	print("[GalaxyHUD] 'Exit' button clicked.")

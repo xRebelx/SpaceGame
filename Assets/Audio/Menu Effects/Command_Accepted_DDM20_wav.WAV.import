@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://377yjcifjbb5"
+path="res://.godot/imported/Command_Accepted_DDM20_wav.WAV-b047c1e0d05dd3006d8dc1fbf169c138.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Menu Effects/Command_Accepted_DDM20_wav.WAV"
+dest_files=["res://.godot/imported/Command_Accepted_DDM20_wav.WAV-b047c1e0d05dd3006d8dc1fbf169c138.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

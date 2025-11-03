@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=3 uid="uid://brb652etbm33g"]
+
+[ext_resource type="Script" uid="uid://ovf1ehapjb3c" path="res://UI/Scripts/CaptainSlot.gd" id="1_qx5fg"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="3_jq21l"]
+[ext_resource type="Texture2D" uid="uid://dnmgn4xfharvq" path="res://Assets/UI_Assets/Buttons/ButtonOutline.png" id="4_s6oy8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e24hd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ucp7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e24hd"]
+bg_color = Color(0.2784314, 0.52156866, 0.5529412, 0.4627451)
+
+[node name="CaptainSlot" type="MarginContainer"]
+offset_right = 1920.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_qx5fg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.4627451, 0, 1, 0.05490196)
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+columns = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+
+[node name="NameLabel" type="Label" parent="GridContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 6
+theme = ExtResource("3_jq21l")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="ClassLabel" type="Label" parent="GridContainer/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 6
+theme = ExtResource("3_jq21l")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Class"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="LevelLabel" type="Label" parent="GridContainer/MarginContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 6
+theme = ExtResource("3_jq21l")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+modulate = Color(0.13333334, 1, 1, 1)
+layout_mode = 2
+texture = ExtResource("4_s6oy8")
+region_rect = Rect2(3.4595337, 1.6098766, 32.86199, 37.432198)
+
+[node name="SelectButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_e24hd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6ucp7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_e24hd")

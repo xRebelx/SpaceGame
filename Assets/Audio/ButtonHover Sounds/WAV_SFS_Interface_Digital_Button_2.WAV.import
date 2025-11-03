@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cflj14vedemtb"
+path="res://.godot/imported/WAV_SFS_Interface_Digital_Button_2.WAV-c8d3e0d1b43207796b24aa0eda9bad8c.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/ButtonHover Sounds/WAV_SFS_Interface_Digital_Button_2.WAV"
+dest_files=["res://.godot/imported/WAV_SFS_Interface_Digital_Button_2.WAV-c8d3e0d1b43207796b24aa0eda9bad8c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

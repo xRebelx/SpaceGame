@@ -39,6 +39,8 @@ columns = 2
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("1_sae8a")
+expand_mode = 3
+stretch_mode = 4
 
 [node name="TimestampLabel" type="Label" parent="GridContainer"]
 unique_name_in_owner = true

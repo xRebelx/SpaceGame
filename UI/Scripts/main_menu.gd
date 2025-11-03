@@ -1,3 +1,4 @@
+# res://UI/Scripts/main_menu.gd
 extends Control
 
 @onready var btn_new: Button     = %BtnNew
@@ -6,7 +7,6 @@ extends Control
 @onready var btn_quit: Button    = %BtnQuit
 
 # Set this in the Inspector to: res://UI/UI Scenes/LoadGame.tscn
-# (or res://UI/UI Scenes/LoadingScreen.tscn if that's the actual file)
 @export_file("*.tscn") var load_game_scene_path: String
 
 var _overlay_open := false
@@ -22,6 +22,12 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	_update_load_button_state()
+	
+	# Tell the MusicManager to play the menu music
+	# This will run every time the MainMenu scene is loaded
+	if MusicManager:
+		MusicManager.play_menu_music()
+	
 	print("[MainMenu] Ready, UI connected.")
 
 func _update_load_button_state() -> void:
@@ -45,7 +51,8 @@ func _on_load_pressed() -> void:
 	_open_load_overlay()
 
 func _on_options_pressed() -> void:
-	print("[MainMenu] Options pressed (feature coming soon)")
+	print("[MainMenu] Options pressed")
+	EventBus.request_show_screen.emit("Options", null)
 
 func _on_quit_pressed() -> void:
 	print("[MainMenu] Quit pressed")

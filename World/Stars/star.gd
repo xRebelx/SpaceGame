@@ -17,19 +17,30 @@ class_name Star
 @export var texture: Texture2D:
 	set(value):
 		texture = value
-		_apply_sprite()
+		_apply_sprite() # Keep for in-editor updates
 
 @export_range(4.0, 4096.0, 1.0, "or_greater") var radius_px: float = 96.0:
 	set(value):
 		radius_px = value
-		_apply_sprite()
+		_apply_sprite() # Keep for in-editor updates
 
 @onready var _sprite: Sprite2D = $Sprite2D
 
 func _enter_tree() -> void:
 	add_to_group("stars")
-	_apply_sprite()
+	# --- MODIFIED: Removed _apply_sprite() from here ---
 	_apply_node_name()
+
+# --- NEW: Add _ready() function ---
+func _ready() -> void:
+	# If exported texture is null, grab it from the sprite
+	if texture == null:
+		if is_instance_valid(_sprite) and _sprite.texture != null:
+			texture = _sprite.texture
+			
+	# Now, apply the correct texture and scale
+	_apply_sprite()
+
 
 func _apply_node_name() -> void:
 	var label: String = display_name.strip_edges()
@@ -41,8 +52,10 @@ func _apply_node_name() -> void:
 func _apply_sprite() -> void:
 	if not is_instance_valid(_sprite):
 		return
-	if texture:
-		_sprite.texture = texture
+	
+	# --- MODIFIED: Always set texture from the exported var ---
+	_sprite.texture = texture
+	
 	if _sprite.texture == null:
 		return
 	var w: float = float(_sprite.texture.get_width())

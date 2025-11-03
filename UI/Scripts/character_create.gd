@@ -1,3 +1,4 @@
+# res://UI/Scripts/character_create.gd
 extends Control
 
 const CLASS_PATHS: Dictionary[String, String] = {
@@ -19,7 +20,7 @@ const CLASS_PATHS: Dictionary[String, String] = {
 
 var _selected_class: Resource = null
 const NAME_MAX_LENGTH: int = 15
-var VALID_NAME_REGEX := RegEx.new()  # <-- was const; must be var
+var VALID_NAME_REGEX := RegEx.new()
 
 func _ready() -> void:
 	# Prepare regex: only letters, numbers, and spaces
@@ -38,9 +39,9 @@ func _ready() -> void:
 	btn_back.pressed.connect(_on_back_pressed)
 	btn_start.pressed.connect(_on_start_pressed)
 
-	# Enter submits (LineEdit is single-line by design)
-	name_edit.text_submitted.connect(_on_name_submitted)
-	name_edit.text_changed.connect(_on_name_changed)
+	# Connect text signals
+	name_edit.text_submitted.connect(_on_name_submitted) 
+	name_edit.text_changed.connect(_on_name_changed) 
 
 	name_warning.visible = false
 	class_list.select(0)
@@ -73,10 +74,11 @@ func _update_preview() -> void:
 	stats_preview.text = "\n".join(lines)
 
 # === Name handling ===
-func _on_name_submitted(new_text: String) -> void:
-	# Trigger validation when Enter is pressed
-	if _validate_name(new_text):
-		btn_start.emit_signal("pressed")  # optional: auto-continue on Enter
+
+# --- THIS IS THE MODIFIED FUNCTION ---
+func _on_name_submitted(_new_text: String) -> void:
+	# User pressed Enter. Just release focus from the text box.
+	name_edit.release_focus()
 
 func _on_name_changed(_new_text: String) -> void:
 	# Hide warning while typing

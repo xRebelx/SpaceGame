@@ -17,6 +17,7 @@ script = ExtResource("1_a6rm3")
 
 [node name="Camera2D" type="Camera2D" parent="Entities"]
 script = ExtResource("3_i0gbv")
+max_zoom_out_factor = 1.5
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 

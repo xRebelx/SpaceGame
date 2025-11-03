@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://covw4a2xojx2i"]
 
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="1_45d1s"]
-[ext_resource type="Script" uid="uid://upk5ehnks2y2" path="res://UI/UI Scenes/orbit_ui.gd" id="2_q27y5"]
+[ext_resource type="Script" uid="uid://upk5ehnks2y2" path="res://UI/Scripts/orbit_ui.gd" id="2_q27y5"]
 
 [node name="OrbitUI" type="Control"]
 layout_mode = 3

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://d0i4a7lajvro6" path="res://World/Planets/orbit_anchor.gd" id="5_m5nk8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v12gy"]
-radius = 148.003
+radius = 61.03278
 
 [node name="Home planet" type="Node2D"]
 z_index = 1
@@ -15,8 +15,6 @@ script = ExtResource("1_hkqyb")
 display_name = "Home planet"
 target_override = NodePath("../Home Star")
 orbital_period_sec = 120.0
-orbit_anchor_speed = null
-orbit_anchor_radius = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_e8wbk")
@@ -29,8 +27,10 @@ visible = false
 shape = SubResource("CircleShape2D_v12gy")
 
 [node name="NameLabel" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
+text = "Home planet"
 
 [node name="WorldSpacePrompt" type="Node2D" parent="."]
 

@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bah6uxf5tja2b"]
+[gd_scene load_steps=7 format=3 uid="uid://bah6uxf5tja2b"]
 
 [ext_resource type="Script" uid="uid://ld1uc808i12d" path="res://UI/Scripts/main_menu.gd" id="1_4oob3"]
-[ext_resource type="Texture2D" uid="uid://e5k1tfhj4d3v" path="res://Assets/Space Assets/Space BG 1024x1024/Starfields/Starfield 2 - 1024x1024.png" id="2_vtk57"]
+[ext_resource type="Texture2D" uid="uid://rfdenheau4t7" path="res://Assets/Space Assets/SpaceBackgrounds/1920x1080px/04.jpg" id="2_rs2on"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="3_yvguf"]
+[ext_resource type="StyleBox" uid="uid://lhvmwdvqcnxp" path="res://UI/Themes/MainMenuBtnStyleBox.tres" id="4_0aqxs"]
+[ext_resource type="StyleBox" uid="uid://dif525dsl8ii" path="res://UI/Themes/MainMenuBtn_Pressed_StyleBox.tres" id="5_0aqxs"]
+[ext_resource type="StyleBox" uid="uid://c7tpm3cr4tv6n" path="res://UI/Themes/MainMenuBtn_Hover_StyleBox.tres" id="5_yvguf"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -20,7 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_vtk57")
+texture = ExtResource("2_rs2on")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -36,28 +40,59 @@ theme_override_constants/margin_bottom = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="BtnNew" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BtnNew" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
+theme = ExtResource("3_yvguf")
+theme_override_colors/font_color = Color(0.84313726, 0.85882354, 1, 1)
+theme_override_styles/normal = ExtResource("4_0aqxs")
+theme_override_styles/pressed = ExtResource("5_0aqxs")
+theme_override_styles/hover = ExtResource("5_yvguf")
 text = "New Game"
 
-[node name="BtnLoad" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="BtnLoad" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme = ExtResource("3_yvguf")
+theme_override_colors/font_color = Color(0.84313726, 0.85882354, 1, 1)
+theme_override_styles/normal = ExtResource("4_0aqxs")
+theme_override_styles/pressed = ExtResource("5_0aqxs")
+theme_override_styles/hover = ExtResource("5_yvguf")
 text = "Load Game"
 
-[node name="BtnOptions" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="BtnOptions" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme = ExtResource("3_yvguf")
+theme_override_colors/font_color = Color(0.84313726, 0.85882354, 1, 1)
+theme_override_styles/normal = ExtResource("4_0aqxs")
+theme_override_styles/pressed = ExtResource("5_0aqxs")
+theme_override_styles/hover = ExtResource("5_yvguf")
 text = "Options"
 
-[node name="BtnQuit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="BtnQuit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme = ExtResource("3_yvguf")
+theme_override_colors/font_color = Color(0.84313726, 0.85882354, 1, 1)
+theme_override_styles/normal = ExtResource("4_0aqxs")
+theme_override_styles/pressed = ExtResource("5_0aqxs")
+theme_override_styles/hover = ExtResource("5_yvguf")
 text = "Quit Game"

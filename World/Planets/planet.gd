@@ -3,7 +3,7 @@ extends Node2D
 class_name Planet
 
 # === CONFIG ===
-const ORBIT_PATH_SCRIPT_PATH: String = "res://World/Stars/OrbitPath.gd"
+const ORBIT_PATH_SCRIPT = preload("res://World/Stars/OrbitPath.gd")
 
 # --- Visuals ---
 @export var display_name: String = "Planet":
@@ -54,7 +54,16 @@ const ORBIT_PATH_SCRIPT_PATH: String = "res://World/Stars/OrbitPath.gd"
 		tilt_deg = value
 		_update_orbit_path()
 
-@export var initial_angle_deg: float = 0.0
+@export var initial_angle_deg: float = 0.0:
+	set(value):
+		initial_angle_deg = value
+		_angle = deg_to_rad(initial_angle_deg)
+		if Engine.is_editor_hint():
+			_update_orbit_path()
+		elif is_instance_valid(self) and is_inside_tree():
+			initialize_position()
+
+
 @export var clockwise: bool = false
 
 # --- Orbit path rendering (lives under the Star) ---
@@ -88,22 +97,19 @@ const ORBIT_PATH_SCRIPT_PATH: String = "res://World/Stars/OrbitPath.gd"
 var _target: Node2D
 var _angle: float
 var _path_node: Node2D
-var _orbit_path_script: Script
 var _player_in_range: bool = false
 var _interaction_consumed: bool = false
 
-# --- NEW: Orbit Anchor Config ---
 @export var orbit_anchor_speed: float = 1.0
 @export var orbit_anchor_radius: float = 200.0
 
 
 func _enter_tree() -> void:
-	_apply_radius()
 	_refresh_label()
 	_apply_node_name()
 
 func _ready() -> void:
-	_angle = deg_to_rad(initial_angle_deg)
+	_angle = deg_to_rad(initial_angle_deg) 
 	_target = _resolve_orbit_target()
 	
 	set_process(false)
@@ -111,10 +117,6 @@ func _ready() -> void:
 	
 	EventBus.sector_intro_complete.connect(_on_intro_complete)
 	
-	if ClassDB.class_exists("OrbitPath2D"):
-		_orbit_path_script = null
-	else:
-		_orbit_path_script = load(ORBIT_PATH_SCRIPT_PATH)
 	_update_orbit_path()
 	
 	if not is_instance_valid(orbit_trigger_area):
@@ -132,6 +134,14 @@ func _ready() -> void:
 
 	if not is_instance_valid(orbit_anchor):
 		push_error("[Planet] OrbitAnchor node not found! It is required for orbit logic.")
+
+	if texture == null:
+		if is_instance_valid(sprite) and sprite.texture != null:
+			texture = sprite.texture
+			
+	_apply_radius()
+	
+	initialize_position()
 
 
 func _exit_tree() -> void:
@@ -218,7 +228,6 @@ func set_current_angle(new_angle: float) -> void:
 # --- NEW: Orbit Anchor Process ---
 func _orbit_anchor_process(delta: float) -> void:
 	# This function is called by orbit_anchor's script
-	# This rotation is CCW (negative)
 	orbit_anchor.rotation -= orbit_anchor_speed * delta
 
 # --- MODIFIED: Player Capture / Release Logic ---
@@ -230,21 +239,26 @@ func capture_player_for_orbit(player_node: Node2D) -> void:
 	
 	var player_world_pos: Vector2 = player_node.global_position
 	
-	player_node.get_parent().remove_child(player_node)
-	orbit_anchor.add_child(player_node)
+	# --- THIS IS THE FIX ---
+	# Remove the child now
+	if player_node.get_parent():
+		player_node.get_parent().remove_child(player_node)
 	
+	# Call a new function deferred to add the child and do the tween
+	call_deferred("_deferred_add_to_anchor", player_node, player_world_pos)
+	# --- END FIX ---
+
+
+# --- NEW DEFERRED FUNCTION ---
+func _deferred_add_to_anchor(player_node: Node2D, player_world_pos: Vector2) -> void:
+	orbit_anchor.add_child(player_node)
 	player_node.global_position = player_world_pos
 	
 	var tween := create_tween().set_trans(Tween.TRANS_SINE)
 	var orbit_local_pos := (player_node.global_position - global_position).normalized() * orbit_anchor_radius
 	
-	# --- THIS IS THE FIX ---
-	# The player's rotation should be the angle of its position vector
-	# This aligns its `Vector2.UP` forward axis with the CCW tangent
 	var target_rotation = orbit_local_pos.angle()
-	# --- END FIX ---
 	
-	# Add both position and rotation to the same tween
 	tween.tween_property(player_node, "position", orbit_local_pos, 0.5)
 	tween.tween_property(player_node, "rotation", target_rotation, 0.5)
 	
@@ -256,18 +270,33 @@ func release_player_from_orbit(player_node: Node2D, entities_root: Node) -> void
 		push_error("[Planet] Cannot release player, node references are invalid!")
 		return
 		
-	orbit_anchor.remove_child(player_node)
-	entities_root.add_child(player_node)
+	# --- THIS IS THE FIX ---
+	# Remove the child now
+	if player_node.get_parent():
+		player_node.get_parent().remove_child(player_node)
+	
+	# Call a new function deferred to add the child
+	call_deferred("_deferred_add_to_entities", player_node, entities_root)
+	# --- END FIX ---
 	
 	orbit_anchor.set_process(false)
+
+
+# --- NEW DEFERRED FUNCTION ---
+func _deferred_add_to_entities(player_node: Node2D, entities_root: Node) -> void:
+	if is_instance_valid(entities_root):
+		entities_root.add_child(player_node)
+	else:
+		push_error("[Planet] entities_root became invalid before deferred add.")
 
 
 # ===== Helpers: visuals & names =====
 func _apply_radius() -> void:
 	if not is_instance_valid(sprite):
 		return
-	if texture:
-		sprite.texture = texture
+
+	sprite.texture = texture
+	
 	if sprite.texture == null:
 		return
 	var w: float = float(sprite.texture.get_width())
@@ -294,6 +323,9 @@ func _apply_node_name() -> void:
 
 # ===== Helpers: target resolution =====
 func _resolve_orbit_target() -> Node2D:
+	if not is_inside_tree():
+		return null
+		
 	if target_override != NodePath():
 		var n: Node = get_node_or_null(target_override)
 		if n is Node2D:
@@ -320,13 +352,13 @@ func _update_orbit_path() -> void:
 		return
 
 	if _path_node == null or not is_instance_valid(_path_node):
-		if ClassDB.class_exists("OrbitPath2D"):
-			_path_node = ClassDB.instantiate("OrbitPath2D") as Node2D
+		
+		if ORBIT_PATH_SCRIPT:
+			_path_node = ORBIT_PATH_SCRIPT.new() as Node2D
 		else:
-			if _orbit_path_script == null:
-				push_warning("Orbit path script not found at: %s" % ORBIT_PATH_SCRIPT_PATH)
-				return
-			_path_node = _orbit_path_script.new() as Node2D
+			push_warning("ORBIT_PATH_SCRIPT is null. Cannot draw orbit path.")
+			return 
+			
 		_target.add_child(_path_node)
 		_path_node.position = Vector2.ZERO
 		if Engine.is_editor_hint():

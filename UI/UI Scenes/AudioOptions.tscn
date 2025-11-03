@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccgo6as8mh0xt"]
+
+[ext_resource type="Script" uid="uid://cvnu5g4yi3sbk" path="res://UI/Scripts/audio_options.gd" id="1_7qg8u"]
+[ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_w8e46"]
+[ext_resource type="Texture2D" uid="uid://klm0aefiqpbc" path="res://Assets/UI_Assets/UINesia/PNG/SliderBar02.png" id="3_hhikc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hhikc"]
+texture = ExtResource("3_hhikc")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ohdej"]
+texture = ExtResource("3_hhikc")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[node name="AudioOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7qg8u")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="LblMusic" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme = ExtResource("2_w8e46")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Music:"
+
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxTexture_hhikc")
+
+[node name="GridContainer2" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="LblGameEffects" type="Label" parent="MarginContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme = ExtResource("2_w8e46")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Effects:"
+
+[node name="GameEffectsSlider" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxTexture_ohdej")
+
+[node name="GridContainer3" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="LblMenuFx" type="Label" parent="MarginContainer/VBoxContainer/GridContainer3"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme = ExtResource("2_w8e46")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Menu FX:"
+
+[node name="MenuEffectsSlider" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxTexture_hhikc")

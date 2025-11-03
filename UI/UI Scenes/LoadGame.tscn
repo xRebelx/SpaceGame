@@ -1,11 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://fq1m03k47de7"]
+[gd_scene load_steps=14 format=3 uid="uid://fq1m03k47de7"]
 
 [ext_resource type="Texture2D" uid="uid://cggybvcxydlsu" path="res://Assets/UI_Assets/Panels/Stroke2px.png" id="1_nt04m"]
 [ext_resource type="Script" uid="uid://4nmr5ht2llgb" path="res://UI/Scripts/load_game.gd" id="1_offed"]
 [ext_resource type="Theme" uid="uid://c720yo72r5nrm" path="res://UI/Themes/DefaultTheme.theme" id="2_6yl5j"]
 [ext_resource type="PackedScene" uid="uid://dsn68ioquq2a6" path="res://UI/UI Scenes/SaveSlot.tscn" id="2_c0340"]
-[ext_resource type="Texture2D" uid="uid://c182am75j51pw" path="res://Assets/UI_Assets/Icons/64/X.png" id="3_f78oy"]
-[ext_resource type="Texture2D" uid="uid://d2s1buqxw6hdc" path="res://Assets/UI_Assets/Icons/64/Bin.png" id="4_offed"]
+[ext_resource type="Texture2D" uid="uid://bu3j7i7w1w6xd" path="res://Assets/Space Assets/SpaceBackgrounds/1920x1080px/09.jpg" id="3_1cqgs"]
+[ext_resource type="PackedScene" uid="uid://brb652etbm33g" path="res://UI/UI Scenes/CaptainSlot.tscn" id="3_rtyjt"]
+[ext_resource type="StyleBox" uid="uid://lhvmwdvqcnxp" path="res://UI/Themes/MainMenuBtnStyleBox.tres" id="6_xl0x3"]
+[ext_resource type="StyleBox" uid="uid://dif525dsl8ii" path="res://UI/Themes/MainMenuBtn_Pressed_StyleBox.tres" id="7_y2eqd"]
+[ext_resource type="StyleBox" uid="uid://c7tpm3cr4tv6n" path="res://UI/Themes/MainMenuBtn_Hover_StyleBox.tres" id="8_gjq0b"]
+[ext_resource type="Texture2D" uid="uid://34otuvgjn8ih" path="res://Assets/UI_Assets/Panels/Frame.png" id="9_y2eqd"]
+[ext_resource type="Texture2D" uid="uid://xq8qt716yguy" path="res://Assets/Space Assets/SpaceBackgrounds/1920x1080px/05.jpg" id="10_rtyjt"]
+[ext_resource type="Texture2D" uid="uid://d3p5qc1yi8i41" path="res://Assets/UI_Assets/Icons/32/X.png" id="10_y2eqd"]
+[ext_resource type="Texture2D" uid="uid://s81xmplclo4j" path="res://Assets/UI_Assets/Icons/32/Bin.png" id="11_gjq0b"]
 
 [node name="LoadGame" type="Control" groups=["ui_hide_on_snapshot"]]
 z_index = 2
@@ -18,6 +25,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_offed")
 save_slot_scene = ExtResource("2_c0340")
+captain_slot_scene = ExtResource("3_rtyjt")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -31,17 +39,6 @@ theme_override_constants/margin_top = 200
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 200
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
-self_modulate = Color(1.2513996e-06, 0.33052745, 0.53064793, 1)
-z_index = 1
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("1_nt04m")
-region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
-
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
@@ -49,10 +46,13 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer"]
+[node name="LoadBG" type="TextureRect" parent="MarginContainer/MarginContainer"]
+clip_contents = true
 layout_mode = 2
 mouse_filter = 2
-color = Color(0, 0, 0.13333334, 1)
+texture = ExtResource("3_1cqgs")
+expand_mode = 2
+stretch_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
@@ -68,6 +68,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+z_index = 1
 layout_mode = 2
 columns = 2
 
@@ -75,6 +76,7 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_6yl5j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Captain"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -83,11 +85,12 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_6yl5j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Save Files"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="UIContentContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
@@ -95,132 +98,192 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-columns = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CaptainInfoContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/ScrollContainer" groups=["ui_hide_on_snapshot"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/ScrollContainer/CaptainInfoContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer"]
 self_modulate = Color(0.45490196, 0.49019608, 0.62352943, 0.49803922)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_nt04m")
 region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SaveSlotContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/ScrollContainer2"]
+[node name="CaptainInfoContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer/MarginContainer/ScrollContainer" groups=["ui_hide_on_snapshot"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer2"]
+self_modulate = Color(0.45490196, 0.49019608, 0.62352943, 0.49803922)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+texture = ExtResource("1_nt04m")
+region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 15
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveSlotContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer2/MarginContainer2/ScrollContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/ScrollContainer2/SaveSlotContainer"]
-self_modulate = Color(0.45490196, 0.49019608, 0.62352943, 0.49803922)
+[node name="SaveSlot" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/UIContentContainer/HBoxContainer/MarginContainer2/MarginContainer2/ScrollContainer2/SaveSlotContainer" instance=ExtResource("2_c0340")]
 layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("1_nt04m")
-region_rect = Rect2(1.8254852, 1.5312881, 16.322182, 16.757435)
 
-[node name="GridContainer2" type="GridContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="GridContainer3" type="GridContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 columns = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="BackButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2/MarginContainer"]
+[node name="BackButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("2_6yl5j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = ExtResource("6_xl0x3")
+theme_override_styles/pressed = ExtResource("7_y2eqd")
+theme_override_styles/hover = ExtResource("8_gjq0b")
 text = "Back"
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2"]
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="LoadButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2/MarginContainer3"]
+[node name="LoadButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3/MarginContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("2_6yl5j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = ExtResource("6_xl0x3")
+theme_override_styles/pressed = ExtResource("7_y2eqd")
+theme_override_styles/hover = ExtResource("8_gjq0b")
 text = "Load"
 
-[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2"]
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="DeleteButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer2/MarginContainer4"]
+[node name="DeleteButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer/VBoxContainer/GridContainer3/MarginContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = ExtResource("2_6yl5j")
 theme_override_colors/font_color = Color(0.84313726, 0, 0, 1)
+theme_override_styles/normal = ExtResource("6_xl0x3")
+theme_override_styles/pressed = ExtResource("7_y2eqd")
+theme_override_styles/hover = ExtResource("8_gjq0b")
 text = "Delete"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/MarginContainer"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_nt04m")
+region_rect = Rect2(3.8069267, 1.5221777, 12.893745, 16.853241)
 
 [node name="ConfirmationDialogue" type="MarginContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 700
-theme_override_constants/margin_top = 320
-theme_override_constants/margin_right = 700
-theme_override_constants/margin_bottom = 320
 
-[node name="ColorRect2" type="ColorRect" parent="ConfirmationDialogue"]
+[node name="ColorRect" type="ColorRect" parent="ConfirmationDialogue"]
 layout_mode = 2
 size_flags_vertical = 3
-color = Color(0.16206557, 0.16206557, 0.16206565, 1)
+color = Color(0, 0, 0, 0.7882353)
 
 [node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 800
+theme_override_constants/margin_top = 290
+theme_override_constants/margin_right = 800
+theme_override_constants/margin_bottom = 290
+
+[node name="TextureRect2" type="TextureRect" parent="ConfirmationDialogue/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("10_rtyjt")
+expand_mode = 3
+stretch_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
@@ -228,52 +291,100 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_6yl5j")
-theme_override_colors/font_color = Color(0.7738557, 7.70092e-07, 5.7756904e-07, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Are you sure you want to delete this save?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_6yl5j")
-theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.91236115, 0, 0.008418357, 1)
+theme_override_font_sizes/font_size = 24
 text = "Saves cannot be recovered once deleted."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SaveImage" type="TextureRect" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_right = 150
+
+[node name="SaveImage" type="TextureRect" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+expand_mode = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("9_y2eqd")
+region_rect = Rect2(3.106636, 2.8373995, 17.83723, 18.242622)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="GridContainer" type="GridContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
 layout_mode = 2
 columns = 2
 
-[node name="CancelDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer"]
+[node name="CancelDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath("../ConfirmDelete")
+focus_mode = 0
 theme = ExtResource("2_6yl5j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Cancel"
-icon = ExtResource("3_f78oy")
 
-[node name="ConfirmDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer/CancelDelete"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer/CancelDelete/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("10_y2eqd")
+stretch_mode = 2
+
+[node name="ConfirmDelete" type="Button" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../CancelDelete")
+focus_mode = 0
 theme = ExtResource("2_6yl5j")
 theme_override_colors/font_color = Color(0.84313726, 0, 0, 1)
 text = "Delete"
-icon = ExtResource("4_offed")
+
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer/ConfirmDelete"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="ConfirmationDialogue/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer2/GridContainer/ConfirmDelete/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("11_gjq0b")
+stretch_mode = 2

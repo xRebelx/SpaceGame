@@ -220,6 +220,16 @@ func _complete_sector_swap() -> void:
 	var sector := packed.instantiate()
 	_world_root.add_child(sector)
 	sector.name = _current_sector_id
+	
+	# --- ADD THIS BLOCK ---
+	# Pass the sector's bounds to the player
+	if is_instance_valid(_player) and "set_world_bounds" in _player:
+		if "world_bounds" in sector:
+			_player.set_world_bounds(sector.world_bounds)
+		else:
+			# Clear bounds if the new sector doesn't have one defined
+			_player.set_world_bounds(Rect2()) 
+	# --- END ADD ---
 
 	# --- Apply loaded state to the sector we are ENTERING ---
 	_apply_planet_states(sector)

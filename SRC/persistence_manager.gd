@@ -105,6 +105,7 @@ func save_game(save_path: String) -> void:
 	var metadata: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(false, true),
 		"save_name": PlayerManager.captain_profile.captain_name,
+		"class_id": PlayerManager.captain_profile.class_id, # <-- THIS IS THE NEW LINE
 		"screenshot_path": png_path
 	}
 

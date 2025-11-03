@@ -104,6 +104,14 @@ func _start_parallel_fade_out() -> void:
 	"""
 	Creates and runs the parallel fade-out tween.
 	"""
+	
+	# --- THIS IS THE FIX ---
+	# Start the gameplay music and tell it to fade in over
+	# the *exact same duration* as our visual fade-out.
+	if MusicManager:
+		MusicManager.play_gameplay_music(fade_out_time)
+	# --- END OF FIX ---
+	
 	# This tween starts immediately
 	var parallel_tween := create_tween().set_parallel(true)
 	

@@ -14,6 +14,12 @@ class_name Player
 @export var facing_offset_deg: float = 0.0
 @export var forward_axis: Vector2 = Vector2.UP
 
+# --- ADD THESE LINES ---
+@export_group("World Bounds")
+@export var bounds_pushback_force: float = 100.0
+@export var bounds_damp_factor: float = 2.0
+# --- END ADD ---
+
 # ===== Thruster visuals =====
 @onready var thruster_forward: CanvasItem = get_node_or_null("Thrusters/thruster1")
 @onready var thruster_rev_left: CanvasItem = get_node_or_null("Thrusters/reverse_thruster_left_1")
@@ -35,6 +41,9 @@ var _state: State = State.FLYING
 var _orbiting_planet: Node2D = null
 var _entities_root: Node = null
 
+# --- ADD THIS LINE ---
+var _current_world_bounds: Rect2 = Rect2() # Stores the active sector's bounds
+
 
 func _ready() -> void:
 	gravity_scale = 0.0
@@ -49,24 +58,60 @@ func _ready() -> void:
 		$BoostParticles.emitting = false
 
 	EventBus.sector_intro_complete.connect(_on_sector_intro_complete)
-	
 	EventBus.player_entered_orbit.connect(_on_enter_orbit)
 	EventBus.player_leave_orbit.connect(_on_leave_orbit)
-	
+
 	# Store parent for re-parenting later
 	_entities_root = get_parent()
 
 
-func _physics_process(_delta: float) -> void: 
-	# Only process controls if flying
+func _physics_process(_delta: float) -> void:
 	if _state != State.FLYING:
 		return
+
+	# --- ADD THIS ENTIRE BLOCK ---
+	# Apply soft wall world bounds
+	var pushback_force := Vector2.ZERO
+	var is_outside := false
+
+	if _current_world_bounds.has_area():
+		var pos: Vector2 = global_position
 		
+		# Check X axis
+		if pos.x < _current_world_bounds.position.x:
+			# How far past the left edge
+			pushback_force.x = _current_world_bounds.position.x - pos.x
+			is_outside = true
+		elif pos.x > _current_world_bounds.end.x:
+			# How far past the right edge
+			pushback_force.x = _current_world_bounds.end.x - pos.x
+			is_outside = true
+			
+		# Check Y axis
+		if pos.y < _current_world_bounds.position.y:
+			# How far past the top edge
+			pushback_force.y = _current_world_bounds.position.y - pos.y
+			is_outside = true
+		elif pos.y > _current_world_bounds.end.y:
+			# How far past the bottom edge
+			pushback_force.y = _current_world_bounds.end.y - pos.y
+			is_outside = true
+
+	if is_outside:
+		# Apply a pushback force proportional to the distance outside the bounds
+		apply_central_force(pushback_force * bounds_pushback_force)
+		
+		# Apply extra damping to slow the player down
+		linear_damp = world_linear_damp * bounds_damp_factor
+	else:
+		# Ensure damping is reset when back inside
+		linear_damp = world_linear_damp
+	# --- END OF BLOCK ---
+
 	var turn_input: int = int(Input.is_action_pressed("rotate_right")) - int(Input.is_action_pressed("rotate_left"))
 	var thrust_pressed: bool = Input.is_action_pressed("thrust")
 	var reverse_pressed: bool = Input.is_action_pressed("reverse")
 
-	# Handle interaction input
 	if Input.is_action_just_pressed("interact"):
 		if is_instance_valid(_current_interactable):
 			if _current_interactable.has_method("on_player_interact"):
@@ -92,6 +137,7 @@ func _physics_process(_delta: float) -> void:
 		$BoostParticles.emitting = thrust_pressed
 	_set_thrusters(thrust_pressed, reverse_pressed)
 
+
 # ===== Helpers =====
 func _set_thrusters(forward_on: bool, reverse_on: bool) -> void:
 	if thruster_forward:
@@ -101,14 +147,20 @@ func _set_thrusters(forward_on: bool, reverse_on: bool) -> void:
 	if thruster_rev_right:
 		thruster_rev_right.visible = reverse_on
 
+# --- ADD THIS FUNCTION ---
+# This is the new function UniverseManager will call
+func set_world_bounds(new_bounds: Rect2) -> void:
+	_current_world_bounds = new_bounds
+# --- END ADD ---
+
 # ===== New Game hook =====
 func apply_captain_and_ship_data(profile: CaptainProfile, s_data: ShipData) -> void:
-	self.captain_profile = profile
+	captain_profile = profile
 	PlayerManager.captain_profile = profile
-	
 	if s_data:
-		self.ship_data = s_data
+		ship_data = s_data
 		PlayerManager.ship_data = s_data
+
 
 # ===== Interaction Handlers =====
 func set_interactable(node: Node) -> void:
@@ -117,6 +169,7 @@ func set_interactable(node: Node) -> void:
 func clear_interactable(node: Node) -> void:
 	if _current_interactable == node:
 		_current_interactable = null
+
 
 # ===== Warp and Intro Logic =====
 func initiate_warp() -> void:
@@ -131,40 +184,37 @@ func _on_sector_intro_complete() -> void:
 	set_physics_process(true)
 
 
-# --- MODIFIED: Orbiting State Functions ---
-
+# ===== ORBIT STATE =====
 func _on_enter_orbit(planet_node: Node2D) -> void:
 	if _state == State.ORBITING:
-		return # Already orbiting
-	
+		return
+
 	_state = State.ORBITING
 	_orbiting_planet = planet_node
-	
-	freeze = true 
-	
+
+	freeze = true
 	set_physics_process(false)
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0.0
 	collision_shape.set_deferred("disabled", true)
-	
+
 	if is_instance_valid(thrusters_node):
 		thrusters_node.visible = false
 	else:
 		_set_thrusters(false, false)
-		
+
 	if has_node("BoostParticles"):
 		$BoostParticles.emitting = false
-		
+
 	var cam := get_viewport().get_camera_2d()
-	
-	# --- THIS IS THE FIX ---
-	var _cam_tween: Tween = null # Prefixed with underscore
 	var tween_duration: float = 1.0
-	
-	if cam and cam.has_method("set_follow_target"):
-		_cam_tween = cam.set_follow_target(planet_node, Vector2(1.5, 1.5), tween_duration) # Assigned to _cam_tween
-	# --- END FIX ---
-	
+
+	if cam:
+		if cam.has_method("lock_zoom_for_orbit"):
+			cam.lock_zoom_for_orbit(tween_duration)
+		if cam.has_method("set_follow_target"):
+			cam.set_follow_target(planet_node, cam.zoom, tween_duration)
+
 	if planet_node.has_method("capture_player_for_orbit"):
 		planet_node.capture_player_for_orbit(self)
 	else:
@@ -185,35 +235,40 @@ func _on_leave_orbit() -> void:
 	if not _orbiting_planet.has_method("release_player_from_orbit"):
 		push_error("[Player] Planet is missing 'release_player_from_orbit'!")
 		return
-	
+
 	var exit_position: Vector2 = global_position
 	var exit_rotation: float = global_rotation
-	
 	_state = State.FLYING
-	
+
 	var cam := get_viewport().get_camera_2d()
-	var cam_tween: Tween = null # <-- This one is OK, it's used below
 	var tween_duration: float = 1.0
-	
-	if cam and cam.has_method("reset_to_player"):
-		cam_tween = cam.reset_to_player(tween_duration)
+	var cam_move_tween: Tween = null
+
+	if cam:
+		if cam.has_method("set_follow_target"):
+			cam_move_tween = cam.set_follow_target(self, cam.zoom, tween_duration)
 
 	_orbiting_planet.release_player_from_orbit(self, _entities_root)
-	
+
 	global_position = exit_position
 	global_rotation = exit_rotation
-	
+
 	var scale_tween := create_tween()
 	scale_tween.tween_property(self, "scale", Vector2(1.0, 1.0), tween_duration)
-	
-	if is_instance_valid(cam_tween):
-		await cam_tween.finished
+
+	if is_instance_valid(cam_move_tween):
+		await cam_move_tween.finished
+
+	if cam:
+		if cam.has_method("unlock_zoom_after_orbit"):
+			cam.unlock_zoom_after_orbit(tween_duration)
+
 	if is_instance_valid(scale_tween):
 		await scale_tween.finished
 
 	_orbiting_planet = null
-	
-	freeze = false 
+
+	freeze = false
 	set_physics_process(true)
 	collision_shape.set_deferred("disabled", false)
 
