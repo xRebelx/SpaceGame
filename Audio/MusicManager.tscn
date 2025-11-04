@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://8x2im8o1j3h6"]
+[gd_scene load_steps=6 format=3 uid="uid://8x2im8o1j3h6"]
 
 [ext_resource type="Script" uid="uid://bg2oiueir11dd" path="res://SRC/music_manager.gd" id="1_olc47"]
 [ext_resource type="AudioStream" uid="uid://oko35qpgvgg" path="res://Assets/Audio/Music/Edge_Of_Reality__Loop_.WAV" id="2_yxf74"]
 [ext_resource type="AudioStream" uid="uid://cflj14vedemtb" path="res://Assets/Audio/ButtonHover Sounds/WAV_SFS_Interface_Digital_Button_2.WAV" id="3_x478p"]
 [ext_resource type="AudioStream" uid="uid://dhfhklum4sqxw" path="res://Assets/Audio/Music/Lost_In_Space__Loop.WAV" id="4_g1f7a"]
+[ext_resource type="AudioStream" uid="uid://mdhjs80sbcxm" path="res://Assets/Audio/Music/Infinity__Loop.WAV" id="5_m0y0c"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_olc47")
@@ -21,3 +22,6 @@ bus = &"MenuEffects"
 [node name="GameplayMusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_g1f7a")
 bus = &"Music"
+
+[node name="DockedMusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_m0y0c")

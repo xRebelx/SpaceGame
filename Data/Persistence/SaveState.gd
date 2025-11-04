@@ -14,3 +14,4 @@ class_name SaveState
 @export var player_position: Vector2 # <-- ADD THIS LINE
 
 @export var planet_orbital_states: Dictionary = {} # { sector_id -> { planet_name -> { "angle": f, "period": f, "clockwise": b } } }
+@export var audio_settings: Dictionary = {}

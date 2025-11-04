@@ -1,16 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://b8sb05q4gjljo"]
+[gd_scene load_steps=15 format=3 uid="uid://b8sb05q4gjljo"]
 
-[ext_resource type="Texture2D" uid="uid://dhyrkftmnkhm8" path="res://Assets/Space Assets/Space BG 1024x1024/Blue Nebula/Blue Nebula 1 - 1024x1024.png" id="1_2fbxg"]
 [ext_resource type="PackedScene" uid="uid://dva0go7ffl0vw" path="res://World/Black Holes/BlackHole.tscn" id="1_c84mt"]
 [ext_resource type="Script" uid="uid://c21a2g06tllbe" path="res://World/Sectors/SectorRoot.gd" id="1_ovgie"]
 [ext_resource type="Resource" uid="uid://dew6mea2ydn18" path="res://Data/Sectors/MiningSector_1.tres" id="2_nan1s"]
+[ext_resource type="Texture2D" uid="uid://cele3m12oem1i" path="res://Assets/Space Assets/Space BG 1024x1024/Green Nebula/Green Nebula 7 - 1024x1024.png" id="3_d2rb5"]
 [ext_resource type="PackedScene" uid="uid://bqrdcwc1g7yiu" path="res://World/Stars/star.tscn" id="5_vr7yj"]
 [ext_resource type="Texture2D" uid="uid://2vrh3oamru4e" path="res://Assets/Planet Assets/Large Planets 512x512/Suns/Yellow Sun/Sun_Yellow_05-512x512.png" id="6_ik3vx"]
 [ext_resource type="Texture2D" uid="uid://df25yjstvtxyo" path="res://Assets/Planet Assets/Medium Planets 256x256/Solid/Rocky/Rocky_05-256x256.png" id="6_xykhv"]
 [ext_resource type="PackedScene" uid="uid://hkgcxx2fg1ss" path="res://World/Planets/Planet.tscn" id="7_ik3vx"]
 [ext_resource type="Texture2D" uid="uid://kpmh1jc2vlyk" path="res://Assets/Planet Assets/Medium Planets 256x256/Solid/Cloudy/Cloudy_04-256x256.png" id="9_hb57f"]
 [ext_resource type="Script" uid="uid://lsnkghk5piq7" path="res://World/Stars/OrbitPath.gd" id="9_ik3vx"]
+[ext_resource type="Resource" uid="uid://dhc3fwykiv2vh" path="res://Data/Planets/mining_planet_1.tres" id="9_rxg60"]
 [ext_resource type="Texture2D" uid="uid://lgfkytdataxa" path="res://Assets/Planet Assets/Medium Planets 256x256/Gaseous/Red Giant/RedGiant_01-256x256.png" id="10_d2rb5"]
+[ext_resource type="Resource" uid="uid://gfntmkb8w7ym" path="res://Data/Planets/mining_planet_2.tres" id="11_jaqv1"]
+[ext_resource type="Resource" uid="uid://cywe3m6562nag" path="res://Data/Planets/mining_planet_3.tres" id="13_sb2gi"]
 
 [node name="MiningSector1" type="Node2D"]
 script = ExtResource("1_ovgie")
@@ -26,7 +29,7 @@ bounds_size = Vector2(8000, 8000)
 [node name="BGImage" type="TextureRect" parent="ParallaxBackground/BGLayer"]
 offset_right = 12000.0
 offset_bottom = 12000.0
-texture = ExtResource("1_2fbxg")
+texture = ExtResource("3_d2rb5")
 stretch_mode = 1
 
 [node name="Entities" type="Node2D" parent="."]
@@ -70,6 +73,7 @@ semi_major_axis = 2300.0
 
 [node name="Mining Planet" parent="." instance=ExtResource("7_ik3vx")]
 position = Vector2(7145, 6013)
+planet_data = ExtResource("9_rxg60")
 display_name = "Mining Planet"
 texture = ExtResource("6_xykhv")
 radius_px = 64
@@ -90,6 +94,7 @@ text = "Mining Planet"
 
 [node name="Mining Planet 2" parent="." instance=ExtResource("7_ik3vx")]
 position = Vector2(6760, 6019)
+planet_data = ExtResource("11_jaqv1")
 display_name = "Mining Planet 2"
 texture = ExtResource("9_hb57f")
 central_body_id = "star_generic"
@@ -100,6 +105,7 @@ clockwise = true
 
 [node name="Mining Planet 3" parent="." instance=ExtResource("7_ik3vx")]
 position = Vector2(6358, 6037)
+planet_data = ExtResource("13_sb2gi")
 display_name = "Mining Planet 3"
 texture = ExtResource("10_d2rb5")
 central_body_id = "star_generic"

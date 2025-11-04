@@ -30,5 +30,7 @@ signal game_save_successful
 # --- NEW: Orbiting ---
 signal player_entered_orbit(planet_node)
 signal player_leave_orbit
-
+# --- NEW: Docking ---
+signal player_initiated_dock(planet_data: PlanetData)
+signal player_initiated_undock
 @warning_ignore_restore("UNUSED_SIGNAL")

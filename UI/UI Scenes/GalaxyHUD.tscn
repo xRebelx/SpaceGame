@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6s5b0irt0343"]
+[gd_scene load_steps=16 format=3 uid="uid://b6s5b0irt0343"]
 
 [ext_resource type="Script" uid="uid://crnwdnt3aycgg" path="res://UI/Scripts/GalaxyHud.gd" id="1_ria6e"]
 [ext_resource type="Texture2D" uid="uid://b8d4j3siq2uss" path="res://Assets/UI_Assets/UINesia/PNG/GameSlotsTitlePanel01.png" id="2_o2gh0"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bwpwf7i66f6rt" path="res://Assets/UI_Assets/UINesia/PNG/WindowSettings03_Panel03.png" id="5_jgn8l"]
 [ext_resource type="Texture2D" uid="uid://34otuvgjn8ih" path="res://Assets/UI_Assets/Panels/Frame.png" id="6_jgn8l"]
 [ext_resource type="Texture2D" uid="uid://fcspmrdcfux8" path="res://Assets/UI_Assets/UINesia/PNG/GameSlotPanel01.png" id="7_sobty"]
+[ext_resource type="Texture2D" uid="uid://dpv7akw4pw786" path="res://Assets/UI_Assets/UINesia/PNG/WindowSettings02.png" id="8_bumga"]
 [ext_resource type="StyleBox" uid="uid://lhvmwdvqcnxp" path="res://UI/Themes/MainMenuBtnStyleBox.tres" id="10_stjbn"]
 [ext_resource type="StyleBox" uid="uid://dif525dsl8ii" path="res://UI/Themes/MainMenuBtn_Pressed_StyleBox.tres" id="11_bumga"]
 [ext_resource type="Texture2D" uid="uid://botjf23cll0yd" path="res://Assets/UI_Assets/Icons/32/Menu.png" id="11_sobty"]
@@ -329,22 +330,14 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ro6bl")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2"]
 modulate = Color(4.4520945e-07, 0.3841742, 0.2088936, 1)
+texture_filter = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_ria6e")
-
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/NinePatchRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.43137255)
+texture = ExtResource("8_bumga")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2"]
 layout_mode = 1
@@ -367,12 +360,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_constants/margin_top = 30
 
-[node name="BtnSystemMenu" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2"]
+[node name="BtnSystemMenu" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 self_modulate = Color(0.6955032, 0.6955031, 0.6955031, 1)
 texture_filter = 1
@@ -390,17 +382,17 @@ text = "Menu"
 icon = ExtResource("11_sobty")
 alignment = 0
 
-[node name="SystemMenuPopup" type="Control" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu"]
+[node name="SystemMenuPopup" type="Control" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu"]
 unique_name_in_owner = true
 anchors_preset = 0
-offset_left = -38.0
-offset_top = -383.0
-offset_right = 273.0
-offset_bottom = 3.0
+offset_left = -24.0
+offset_top = -408.0
+offset_right = 287.0
+offset_bottom = -22.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -412,16 +404,16 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("7_sobty")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
@@ -429,26 +421,26 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("13_stjbn")
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 25
 
-[node name="BtnSave" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="BtnSave" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -458,12 +450,12 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "Save"
 
-[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
-[node name="BtnLoad" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3"]
+[node name="BtnLoad" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -473,12 +465,12 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "Load"
 
-[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
-[node name="BtnOptions" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4"]
+[node name="BtnOptions" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -489,12 +481,12 @@ theme_override_font_sizes/font_size = 24
 text = "Options
 "
 
-[node name="MarginContainer5" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer5" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 25
 
-[node name="BtnExit" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer5"]
+[node name="BtnExit" type="Button" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MarginContainer5"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -503,12 +495,17 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "Exit"
 
-[node name="MarginContainer6" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer2/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer6" type="MarginContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer/VBoxContainer/MarginContainer/BtnSystemMenu/SystemMenuPopup/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer3/VBoxContainer/HBoxContainer/Panel2/MarginContainer/GridContainer"]
 layout_mode = 2

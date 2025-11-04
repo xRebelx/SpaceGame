@@ -10,8 +10,7 @@ const COMMAND := "Command"
 const INTIMIDATION := "Intimidation"
 const PERSUASION := "Persuasion"
 const PILOTING := "Piloting"
-
-# Optional candidates you might add later:
-# const ENGINEERING := "Engineering"
-# const SCIENCE := "Science"
-# const MEDICINE := "Medicine"
+const MINING := "Mining"
+const SCIENCE := "Science"
+const ENGINEERING := "Engineering"
+const MEDICINE := "Medicine"

@@ -21,6 +21,10 @@ const SectorManager = preload("res://SRC/SectorManager.gd")
 var _pending_warp_sector_id: String = ""
 var _pending_warp_gate_name: String = ""
 
+# --- NEW: Pending dock tracker ---
+var _pending_dock_data: PlanetData = null
+
+
 func _ready() -> void:
 	UniverseManager.init(world_root, entities_root)
 	UniverseManager.set_player(player)
@@ -48,12 +52,10 @@ func _ready() -> void:
 	UIManager.register_screen("SaveGame", "res://UI/UI Scenes/SaveGame.tscn")
 	UIManager.register_screen("LoadGame", "res://UI/UI Scenes/LoadGame.tscn")
 	UIManager.register_screen("OrbitUI", "res://UI/UI Scenes/OrbitUI.tscn")
-	
-	# --- ADD THIS LINE ---
 	UIManager.register_screen("Options", "res://UI/UI Scenes/Options.tscn")
-	# --- END ---
+	UIManager.register_screen("DockedUI", "res://UI/UI Scenes/DockedUI.tscn")
 
-	# Signals
+	# --- ALL SIGNALS ---
 	EventBus.request_show_screen.connect(_on_request_show_screen)
 	EventBus.request_start_game.connect(_on_request_start_game)
 	EventBus.new_game_confirmed.connect(_on_new_game_confirmed)
@@ -61,6 +63,11 @@ func _ready() -> void:
 	EventBus.player_initiated_warp.connect(_on_player_initiated_warp)
 	EventBus.blackout_complete.connect(_on_blackout_complete)
 	UniverseManager.sector_swap_complete.connect(_on_sector_swap_complete)
+
+	EventBus.player_initiated_dock.connect(_on_player_initiated_dock)
+	EventBus.sector_intro_complete.connect(_on_intro_complete) # main.gd now listens for this
+	EventBus.player_initiated_undock.connect(_on_player_initiated_undock)
+	# --- END ALL SIGNALS ---
 
 	# Boot flow
 	if DEV_AUTO_START:
@@ -101,7 +108,7 @@ func _enter_gameplay_mode() -> void:
 	UIManager.show_hud()
 	EventBus.request_show_hud.emit(true)
 	
-	var hud := UIManager.get_hud()
+	var hud: Control = UIManager.get_hud()
 	if hud and hud.has_method("connect_to_player_resources"):
 		hud.call("connect_to_player_resources")
 		hud.call("update_all_player_labels")
@@ -136,7 +143,7 @@ func _on_new_game_confirmed(profile: Resource) -> void:
 
 func _on_request_start_game(sector_id: String, entry: String) -> void:
 	if MusicManager:
-		MusicManager.stop_menu_music() # This line stops the menu music
+		MusicManager.stop_menu_music()
 
 	if is_instance_valid(loading_layer):
 		loading_layer.show_overlay_instant()
@@ -146,10 +153,12 @@ func _on_request_start_game(sector_id: String, entry: String) -> void:
 	
 	EventBus.player_initiated_warp.emit(sector_id, entry)
 
-# ===== Sector change -> HUD =====
+
+# ===== MODIFIED TRANSITION LOGIC =====
+
 func _on_player_initiated_warp(sector_id: String, gate_name: String) -> void:
 	"""
-	STEP 1: Player hit a gate (or new game started).
+	STEP 1 (WARP): Player hit a gate (or new game started).
 	Store targets and tell UIManager to fade to black.
 	"""
 	if player.has_method("initiate_warp"):
@@ -160,22 +169,106 @@ func _on_player_initiated_warp(sector_id: String, gate_name: String) -> void:
 	
 	UIManager.begin_warp_transition()
 
+func _on_player_initiated_dock(planet_data: PlanetData) -> void:
+	"""
+	STEP 1 (DOCK): Player clicked "Dock" in OrbitUI.
+	Store data, disable player, close OrbitUI, and fade to black.
+	"""
+	_pending_dock_data = planet_data # Store the data
+	
+	if player.has_method("initiate_warp"):
+		player.initiate_warp()
+	if player.has_method("set_state_docking"):
+		player.set_state_docking() # Tell player it's docking
+		
+	EventBus.request_close_screen.emit("OrbitUI") # Close the old UI
+	UIManager.begin_warp_transition() # Start fade to black
+
 func _on_blackout_complete() -> void:
 	"""
 	STEP 2: Screen is black.
-	Tell UniverseManager to swap the scene.
+	Tell UniverseManager to swap (if warping) OR show intro (if docking).
 	"""
-	if not player.visible:
-		_enter_gameplay_mode()
-
-	UniverseManager.change_sector(_pending_warp_sector_id, _pending_warp_gate_name)
+	if _pending_dock_data != null:
+		# --- THIS IS THE FIX (DOCKING) ---
+		var data_to_show = _pending_dock_data
+		_pending_dock_data = null
+		
+		if MusicManager:
+			MusicManager.stop_gameplay_music()
+			
+		# 1. Pre-load the DockedUI underneath the black intro screen
+		UIManager.preload_screen_under_intro("DockedUI", data_to_show)
+		# 2. Tell the intro screen to play its animation
+		UIManager.show_sector_intro(data_to_show)
+		# --- END FIX ---
+		
+	elif not _pending_warp_sector_id.is_empty():
+		# This is the original logic (WARPING)
+		if not player.visible:
+			_enter_gameplay_mode()
+		UniverseManager.change_sector(_pending_warp_sector_id, _pending_warp_gate_name)
 
 func _on_sector_swap_complete(data: SectorData) -> void:
 	"""
-	STEP 3: Scene is swapped.
+	STEP 3 (WARP): Scene is swapped.
 	Tell UIManager to show the text animations.
 	"""
 	if is_instance_valid(loading_layer):
-		loading_layer.hide_overlay() # Use its built-in fade-out
+		loading_layer.hide_overlay()
 
 	UIManager.show_sector_intro(data)
+
+func _on_intro_complete() -> void:
+	"""
+	STEP 4: The IntroUI has finished its animation.
+	If we were docking, show the DockedUI.
+	If we were warping, re-enable the player.
+	"""
+	# Check the player's *actual* state
+	if player.has_method("get") and player.get("_state") == player.State.DOCKING:
+		
+		UIManager.hide_hud()
+		
+		# --- ADD THIS LINE ---
+		# The DockedUI is now visible, play the docked music.
+		if MusicManager:
+			MusicManager.play_docked_music()
+		# --- END ADD ---
+
+	else:
+		# This was a normal warp, tell the player to re-enable physics
+		if player.has_method("_on_sector_intro_complete"):
+			player._on_sector_intro_complete()
+
+func _on_player_initiated_undock() -> void:
+	"""
+	Player clicked "Undock" in DockedUI.
+	Set player state back to ORBITING and show the OrbitUI.
+	"""
+	if not (player.has_method("set_state_orbiting") and player.has_method("get_orbiting_planet")):
+		push_error("[Main] Player is missing required functions for undocking.")
+		return
+
+	# 1. Set player state
+	player.set_state_orbiting()
+
+	# 2. Get the planet data to pass back to the OrbitUI
+	var planet_node: Node2D = player.get_orbiting_planet()
+	var planet_data: PlanetData = null
+	
+	if is_instance_valid(planet_node) and "planet_data" in planet_node:
+		planet_data = planet_node.planet_data
+	else:
+		push_warning("[Main] Could not get planet data from player's orbiting planet.")
+
+	# --- ADD THIS BLOCK ---
+	# 3. Stop docked music and resume gameplay music
+	if MusicManager:
+		MusicManager.stop_docked_music()
+		MusicManager.play_gameplay_music()
+	# --- END ADD ---
+
+	# 4. Swap the UI screens
+	EventBus.request_close_screen.emit("DockedUI")
+	EventBus.request_show_screen.emit("OrbitUI", planet_data)

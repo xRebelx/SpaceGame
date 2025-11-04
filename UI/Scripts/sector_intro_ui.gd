@@ -12,9 +12,8 @@ class_name SectorIntroUI
 @export var text_delay: float = 0.2            # Delay between labels fading in
 
 # --- Node references ---
-# Use % for unique names as requested
 @onready var blackout: Control = %Blackout
-@onready var vbox_parent: VBoxContainer = $CanvasLayer/VBoxParent # VBoxParent is not unique
+@onready var vbox_parent: VBoxContainer = $VBoxParent # <-- FIX: Removed "CanvasLayer/"
 @onready var sector_name_label: RichTextLabel = %SectorName
 @onready var sector_faction_label: RichTextLabel = %SectorFaction
 
@@ -28,7 +27,8 @@ func _ready() -> void:
 	if is_instance_valid(vbox_parent):
 		vbox_parent.modulate.a = 0.0 # Hide parent container initially
 	else:
-		push_error("SectorIntroUI: Could not find $CanvasLayer/VBoxParent!")
+		# --- FIX: Updated error message ---
+		push_error("SectorIntroUI: Could not find $VBoxParent!") # <-- FIX
 	
 	if is_instance_valid(sector_name_label):
 		sector_name_label.modulate.a = 0.0
@@ -41,10 +41,6 @@ func _ready() -> void:
 		push_error("SectorIntroUI: Could not find @onready node %SectorFaction")
 
 func fade_in_blackout(on_complete: Callable) -> void:
-	"""
-	Called by main.gd BEFORE the scene swap.
-	Fades in the blackout panel, then calls the on_complete callable.
-	"""
 	if not is_instance_valid(blackout):
 		on_complete.call() # Fail safe, call immediately
 		return
@@ -54,10 +50,6 @@ func fade_in_blackout(on_complete: Callable) -> void:
 	tween.tween_callback(on_complete)
 
 func show_with_data(data: SectorData) -> void:
-	"""
-	Called by main.gd AFTER the scene swap.
-	Screen is already black. Plays the text fade-in and full fade-out sequence.
-	"""
 	# 1. Populate data
 	if data:
 		if is_instance_valid(sector_name_label):
@@ -80,7 +72,6 @@ func show_with_data(data: SectorData) -> void:
 		vbox_parent.modulate.a = 1.0 # Make parent container visible
 
 	# 3. Start the sequential fade-in part
-	# This first tween is sequential (set_parallel(false) is default)
 	var tween := create_tween().set_trans(Tween.TRANS_SINE)
 	
 	# Fade In SectorName
@@ -93,11 +84,7 @@ func show_with_data(data: SectorData) -> void:
 	# Wait
 	tween.tween_interval(display_time)
 	
-	# --- FIX ---
-	# When the sequential tween is finished, call the function
-	# that will create and run the parallel fade-out tween.
 	tween.finished.connect(_start_parallel_fade_out)
-	# --- END FIX ---
 
 
 func _start_parallel_fade_out() -> void:
@@ -105,21 +92,14 @@ func _start_parallel_fade_out() -> void:
 	Creates and runs the parallel fade-out tween.
 	"""
 	
-	# --- THIS IS THE FIX ---
-	# Start the gameplay music and tell it to fade in over
-	# the *exact same duration* as our visual fade-out.
 	if MusicManager:
 		MusicManager.play_gameplay_music(fade_out_time)
-	# --- END OF FIX ---
 	
-	# This tween starts immediately
 	var parallel_tween := create_tween().set_parallel(true)
 	
-	# Add fade-out properties
 	parallel_tween.tween_property(blackout, "modulate:a", 0.0, fade_out_time)
 	parallel_tween.tween_property(vbox_parent, "modulate:a", 0.0, fade_out_time)
 	
-	# 4. Free the entire scene and notify game when this tween is done
 	parallel_tween.finished.connect(queue_free)
 	parallel_tween.finished.connect(_on_animation_finished)
 

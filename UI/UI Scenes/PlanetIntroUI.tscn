@@ -6,18 +6,38 @@
 
 [node name="PlanetIntroUI" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_bkp16")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="VBoxParent" type="VBoxContainer" parent="CanvasLayer"]
-custom_minimum_size = Vector2(0, 1080)
-anchors_preset = 10
+[node name="Blackout" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
-[node name="Planet Name RTL" type="RichTextLabel" parent="CanvasLayer/VBoxParent"]
+[node name="VBoxParent" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 1080)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlanetName" type="RichTextLabel" parent="VBoxParent"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_25bl3")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
@@ -26,10 +46,11 @@ text = "Planet Name"
 fit_content = true
 horizontal_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/VBoxParent"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxParent"]
 layout_mode = 2
 
-[node name="Planet Type RTL" type="RichTextLabel" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
+[node name="PlanetType" type="RichTextLabel" parent="VBoxParent/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_25bl3")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
@@ -38,15 +59,16 @@ text = "Planet Type"
 fit_content = true
 horizontal_alignment = 1
 
-[node name="Spacer" type="HBoxContainer" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
+[node name="Spacer" type="HBoxContainer" parent="VBoxParent/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/VBoxParent"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxParent"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="PlanetImage TR" type="TextureRect" parent="CanvasLayer/VBoxParent/VBoxContainer3"]
+[node name="PlanetImage" type="TextureRect" parent="VBoxParent/VBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("3_25bl3")

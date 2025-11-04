@@ -3,6 +3,7 @@ extends Node
 
 var menu_music_player: AudioStreamPlayer = null 
 var gameplay_music_player: AudioStreamPlayer = null 
+var docked_music_player: AudioStreamPlayer = null # <-- ADD THIS
 var hover_player: AudioStreamPlayer = null
 
 const FADE_TIME: float = 0.5
@@ -10,6 +11,7 @@ const FADE_TIME: float = 0.5
 # Tween trackers for each music player
 var _menu_tween: Tween = null
 var _gameplay_tween: Tween = null 
+var _docked_tween: Tween = null # <-- ADD THIS
 
 
 func _ready() -> void:
@@ -21,12 +23,15 @@ func _ready() -> void:
 	# --- 1. Get our audio players ---
 	menu_music_player = $MenuMusicPlayer
 	gameplay_music_player = $GameplayMusicPlayer 
+	docked_music_player = $DockedMusicPlayer # <-- ADD THIS
 	hover_player = $HoverPlayer
 	
 	if not is_instance_valid(menu_music_player):
 		push_error("[MusicManager] CRITICAL: Could not find $MenuMusicPlayer node.")
 	if not is_instance_valid(gameplay_music_player): 
 		push_error("[MusicManager] CRITICAL: Could not find $GameplayMusicPlayer node.")
+	if not is_instance_valid(docked_music_player): # <-- ADD THIS BLOCK
+		push_error("[MusicManager] CRITICAL: Could not find $DockedMusicPlayer node.")
 	if not is_instance_valid(hover_player):
 		push_error("[MusicManager] CRITICAL: Could not find $HoverPlayer node.")
 
@@ -53,6 +58,7 @@ func play_hover_sound() -> void:
 
 func play_menu_music() -> void:
 	stop_gameplay_music()
+	stop_docked_music() # <-- ADD THIS
 	
 	if not is_instance_valid(menu_music_player):
 		push_warning("[MusicManager] MenuMusicPlayer node not found.")
@@ -95,6 +101,7 @@ func stop_menu_music() -> void:
 
 func play_gameplay_music(fade_duration: float = -1.0) -> void:
 	stop_menu_music()
+	stop_docked_music() # <-- ADD THIS
 
 	if not is_instance_valid(gameplay_music_player):
 		push_warning("[MusicManager] GameplayMusicPlayer node not found.")
@@ -133,3 +140,50 @@ func stop_gameplay_music() -> void:
 	_gameplay_tween.tween_callback(gameplay_music_player.stop)
 	_gameplay_tween.tween_callback(func(): gameplay_music_player.volume_db = 0.0)
 	_gameplay_tween.finished.connect(func(): _gameplay_tween = null)
+
+
+# --- ADD THESE NEW FUNCTIONS ---
+
+func play_docked_music(fade_duration: float = -1.0) -> void:
+	stop_menu_music()
+	stop_gameplay_music()
+
+	if not is_instance_valid(docked_music_player):
+		push_warning("[MusicManager] DockedMusicPlayer node not found.")
+		return
+
+	if docked_music_player.is_playing():
+		return
+
+	if is_instance_valid(_docked_tween):
+		_docked_tween.kill()
+		_docked_tween = null
+
+	docked_music_player.stop()
+	docked_music_player.volume_db = -80.0
+	docked_music_player.play()
+
+	var duration = FADE_TIME if fade_duration < 0.0 else fade_duration
+
+	_docked_tween = create_tween()
+	_docked_tween.tween_property(docked_music_player, "volume_db", 0.0, duration).from_current()
+	_docked_tween.finished.connect(func(): _docked_tween = null)
+
+func stop_docked_music() -> void:
+	if not is_instance_valid(docked_music_player):
+		return
+
+	if not docked_music_player.is_playing() and docked_music_player.volume_db < -70.0:
+		return
+
+	if is_instance_valid(_docked_tween):
+		_docked_tween.kill()
+		_docked_tween = null
+
+	_docked_tween = create_tween()
+	_docked_tween.tween_property(docked_music_player, "volume_db", -80.0, FADE_TIME).from_current()
+	_docked_tween.tween_callback(docked_music_player.stop)
+	_docked_tween.tween_callback(func(): docked_music_player.volume_db = 0.0)
+	_docked_tween.finished.connect(func(): _docked_tween = null)
+
+# --- END ADD ---

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dlupaeqe81bs8"]
+[gd_scene load_steps=6 format=3 uid="uid://dlupaeqe81bs8"]
 
 [ext_resource type="Script" uid="uid://coni03qaaachy" path="res://Entities/Player/Player.gd" id="1_iqqb2"]
-[ext_resource type="Texture2D" uid="uid://c61pmmjdiv7tm" path="res://Assets/Space Assets/18_25 space ships/PNG 18_25 space ships/18_25 space ships-10.png" id="2_vhk2w"]
+[ext_resource type="Texture2D" uid="uid://cgrbjnv45k3ik" path="res://Assets/Space Assets/Pixel_Spaceships_for_SHMUP_1.5.1/darkgrey_06.png" id="2_tekja"]
 [ext_resource type="Texture2D" uid="uid://cukl7v7ujk15t" path="res://Entities/Player/Player Ships/Player Ship FX/18_25 space ships-51.png" id="3_3fayr"]
+[ext_resource type="AudioStream" uid="uid://b4ofuk1md6xdt" path="res://Assets/Audio/ShipSounds/WAV_SFS_Hyperdrive_Engine_Loop_2.WAV" id="4_tekja"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pn6rw"]
 radius = 22.0
@@ -16,8 +17,7 @@ reverse_force = 150.0
 max_speed = 300.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("2_vhk2w")
+texture = ExtResource("2_tekja")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5707964
@@ -28,22 +28,25 @@ scale = Vector2(0.25, 0.25)
 
 [node name="thruster1" type="Sprite2D" parent="Thrusters"]
 z_index = -1
-position = Vector2(0, 120)
-scale = Vector2(2, 2)
+position = Vector2(0, 80)
 texture = ExtResource("3_3fayr")
 
 [node name="reverse_thruster_left_1" type="Sprite2D" parent="Thrusters"]
 z_index = -1
-position = Vector2(-78.9405, -28)
+position = Vector2(-31.999992, -44)
 rotation = -3.14159
 scale = Vector2(0.27, 0.254)
 texture = ExtResource("3_3fayr")
 
 [node name="reverse_thruster_right_1" type="Sprite2D" parent="Thrusters"]
 z_index = -1
-position = Vector2(79.8878, -28)
+position = Vector2(32, -44)
 rotation = 3.14159
 scale = Vector2(0.27, 0.254)
 texture = ExtResource("3_3fayr")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="EngineSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_tekja")
+bus = &"GameEffects"

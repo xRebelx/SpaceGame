@@ -6,14 +6,16 @@
 [node name="SectorIntroUI" type="Control"]
 z_index = 10
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ke7rh")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 10
-
-[node name="Blackout" type="ColorRect" parent="CanvasLayer"]
+[node name="Blackout" type="ColorRect" parent="."]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,31 +25,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxParent" type="VBoxContainer" parent="CanvasLayer"]
+[node name="VBoxParent" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 1080)
+layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_right = 1.0
+offset_bottom = 1080.0
 grow_horizontal = 2
 
-[node name="SectorName" type="RichTextLabel" parent="CanvasLayer/VBoxParent"]
+[node name="SectorName" type="RichTextLabel" parent="VBoxParent"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_sp1n8")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
 theme_override_font_sizes/normal_font_size = 100
-text = "Planet Name"
+text = "Sector Name"
 fit_content = true
 horizontal_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/VBoxParent"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxParent"]
 layout_mode = 2
 
-[node name="SectorFaction" type="RichTextLabel" parent="CanvasLayer/VBoxParent/VBoxContainer2"]
+[node name="SectorFaction" type="RichTextLabel" parent="VBoxParent/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_sp1n8")
 theme_override_colors/default_color = Color(0.0627451, 0.9019608, 0.81960785, 1)
 theme_override_font_sizes/normal_font_size = 80
-text = "Planet Type"
+text = "Sector Type"
 fit_content = true
 horizontal_alignment = 1

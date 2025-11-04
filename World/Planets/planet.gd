@@ -4,7 +4,7 @@ class_name Planet
 
 # === CONFIG ===
 const ORBIT_PATH_SCRIPT = preload("res://World/Stars/OrbitPath.gd")
-
+@export var planet_data: PlanetData
 # --- Visuals ---
 @export var display_name: String = "Planet":
 	set(value):

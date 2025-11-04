@@ -12,6 +12,10 @@ const SCREENSHOT_EXTENSION: String = ".png"
 const MAX_SAVE_FILES: int          = 15
 const SNAPSHOT_HIDE_GROUP: String  = "ui_hide_on_snapshot"  # UI group to hide during screenshots
 
+# --- ADD THIS ---
+const _BUS_NAMES := ["Music", "GameEffects", "MenuEffects"]
+# --- END ADD ---
+
 var _pending_new_profile: CaptainProfile = null
 
 
@@ -72,22 +76,32 @@ func save_game(save_path: String) -> void:
 		push_error("[PersistenceManager] Player data is null. Aborting save.")
 		return
 
+	# --- ADD THIS BLOCK: Gather Audio Settings ---
+	var audio_settings := {}
+	for bus_name in _BUS_NAMES:
+		var bus_idx := AudioServer.get_bus_index(bus_name)
+		if bus_idx != -1:
+			audio_settings[bus_name] = {
+				"db": AudioServer.get_bus_volume_db(bus_idx),
+				"mute": AudioServer.is_bus_mute(bus_idx)
+			}
+	# --- END ADD ---
+
 	# 1) Gather data
 	var save_data: Dictionary = {
 		"player_profile_data": PlayerManager.captain_profile.save_data(),
 		"ship_data_data": PlayerManager.ship_data.save_data(),
 		
-		# --- ARCHITECTURAL FIX ---
-		# We now ask the FactionManager's *data resource* to save itself
 		"faction_data": FactionManager.faction_data.save_data(),
-		# --- END FIX ---
 
 		"current_sector_id": UniverseManager.get_current_sector_id(),
 		"player_position": {
 			"x": UniverseManager.get_player_position().x,
 			"y": UniverseManager.get_player_position().y
 		},
-		"planet_orbital_states": UniverseManager.get_planet_states()
+		"planet_orbital_states": UniverseManager.get_planet_states(),
+		
+		"audio_settings": audio_settings # <-- ADD THIS LINE
 	}
 
 	# 2) Write JSON
@@ -105,7 +119,7 @@ func save_game(save_path: String) -> void:
 	var metadata: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(false, true),
 		"save_name": PlayerManager.captain_profile.captain_name,
-		"class_id": PlayerManager.captain_profile.class_id, # <-- THIS IS THE NEW LINE
+		"class_id": PlayerManager.captain_profile.class_id,
 		"screenshot_path": png_path
 	}
 
@@ -143,6 +157,16 @@ func load_game(save_path: String) -> void:
 		push_error("[PersistenceManager] Managers missing; aborting load.")
 		return
 
+	# --- ADD THIS BLOCK: Load Audio Settings FIRST ---
+	var audio_settings = loaded.get("audio_settings", {})
+	for bus_name in audio_settings.keys():
+		var settings = audio_settings[bus_name]
+		var bus_idx = AudioServer.get_bus_index(bus_name)
+		if bus_idx != -1:
+			AudioServer.set_bus_volume_db(bus_idx, settings.get("db", 0.0))
+			AudioServer.set_bus_mute(bus_idx, settings.get("mute", false))
+	# --- END ADD ---
+
 	if not PlayerManager.captain_profile:
 		PlayerManager.captain_profile = CaptainProfile.new()
 	if not PlayerManager.ship_data:
@@ -151,10 +175,7 @@ func load_game(save_path: String) -> void:
 	PlayerManager.captain_profile.load_data(loaded.get("player_profile_data", {}))
 	PlayerManager.ship_data.load_data(loaded.get("ship_data_data", {}))
 	
-	# --- ARCHITECTURAL FIX ---
-	# We now tell the FactionManager's *data resource* to load the data
 	FactionManager.faction_data.load_data(loaded.get("faction_data", {}))
-	# --- END FIX ---
 	
 	UniverseManager.set_planet_states(loaded.get("planet_orbital_states", {}).duplicate(true))
 

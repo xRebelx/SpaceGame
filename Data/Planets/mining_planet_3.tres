@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PlanetData" load_steps=3 format=3 uid="uid://cywe3m6562nag"]
+
+[ext_resource type="Script" uid="uid://daobok2kamev1" path="res://Data/Planets/PlanetData.gd" id="1_4t1y8"]
+[ext_resource type="Texture2D" uid="uid://lgfkytdataxa" path="res://Assets/Planet Assets/Medium Planets 256x256/Gaseous/Red Giant/RedGiant_01-256x256.png" id="2_ryaut"]
+
+[resource]
+script = ExtResource("1_4t1y8")
+planet_name = "Lestopiter"
+planet_type = "Gas Giant"
+planet_faction = "Terran"
+texture = ExtResource("2_ryaut")
+metadata/_custom_type_script = "uid://daobok2kamev1"

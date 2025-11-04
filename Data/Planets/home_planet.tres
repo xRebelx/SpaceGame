@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PlanetData" load_steps=3 format=3 uid="uid://db1tyrci50e18"]
+
+[ext_resource type="Script" uid="uid://daobok2kamev1" path="res://Data/Planets/PlanetData.gd" id="1_qtpqe"]
+[ext_resource type="Texture2D" uid="uid://cseq06ecvtn38" path="res://Assets/Planet Assets/Large Planets 512x512/Solid/Terrestrial/Terrestrial_03-512x512.png" id="2_fkxwg"]
+
+[resource]
+script = ExtResource("1_qtpqe")
+planet_name = "Olympus Prime"
+planet_type = "Temperate"
+planet_faction = "Terran"
+texture = ExtResource("2_fkxwg")
+metadata/_custom_type_script = "uid://daobok2kamev1"
